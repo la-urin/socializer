@@ -24,18 +24,14 @@ Grosse Buttons, grelle Farben. Erhöhe die Bedienbarkeit mit dem Drunkmode, fall
 ## Punkte
 Erforderlich: 22
 
-| **#** 	| **Aufgabe**                                                                                                                   	| **Punkte** 	|
-|-------	|-------------------------------------------------------------------------------------------------------------------------------	|:----------:	|
-| 1     	| Verwendung von Kotlin statt Java (pro Teammitglied)                                                                           	|      7     	|
-| 2     	| Screen - Liste Kontaktgruppe: Liste sortieren, Button neue Gruppe, Drunkmode aktivieren                                       	|      .     	|
-| 3     	| Screen - Detail Kontaktgruppe: Button Zufälliger Anruf, Broadcast Nachricht auswählen und versenden, Button Gruppe bearbeiten 	|      .     	|
-| 4     	| Screen - Edit Kontaktgruppe: Kontakte auswählen und hinzufügen, Broadcast Nachrichten definieren                              	|      .     	|
-| 5     	| Anbindung Standart Kontakt App                                                                                                	|      .     	|
-| 6     	| Anbindung Standart Telefon App                                                                                                	|      .     	|
-| 7     	| Anbindung Standart Nachrichten App                                                                                            	|      .     	|
-| 8     	| ...                                                                                                                           	|      .     	|
-| 9     	| ...                                                                                                                           	|      .     	|
-| 10    	| ...                                                                                                                           	|      .     	|
-| 11    	| ...                                                                                                                           	|      .     	|
-| 12    	| ...                                                                                                                           	|      .     	|
-| 13    	| ...                                                                                                                           	|      .     	|
+| **#** | **Aufgabe**                                                                                                                   | **Punkte** |
+|-------|-------------------------------------------------------------------------------------------------------------------------------|:----------:|
+| 1     | Verwendung von Kotlin statt Java (pro Teammitglied)                                                                           |     12     |
+| 2     | Screen - Liste Kontaktgruppe: Liste sortieren, Button neue Gruppe, Drunkmode aktivieren                                       |      2     |
+| 3     | Screen - Detail Kontaktgruppe: Button Zufälliger Anruf, Broadcast Nachricht auswählen und versenden, Button Gruppe bearbeiten |      2     |
+| 4     | Screen - Edit Kontaktgruppe: Kontakte auswählen und hinzufügen, Broadcast Nachrichten definieren                              |      2     |
+| 5     | Anbindung Standart Kontakt, Telefon und Nachrichten App                                                                       |      2     |
+| 6     | Unit Testing (Optional)                                                                                                       |      2     |
+| 7     | Lokalisierung                                                                                                                 |      2     |
+| 8     | Unterschiedliche Styles (Drunk Mode)                                                                                          |      2     |
+| 9     | Unterschiedliche Layouts pro Gerätetyp                                                                                        |      2     |
