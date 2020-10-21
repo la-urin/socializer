@@ -1,3 +1,10 @@
 package com.example.socializer.models
 
-data class Message(val text: String)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class Message(
+    @PrimaryKey val id: Int,
+    val text: String
+)

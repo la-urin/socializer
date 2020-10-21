@@ -1,6 +1,10 @@
 package com.example.socializer.models
 
-data class Group(val name: String, val contacts: List<Contact>, val messages: List<Message>) {
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-    constructor(name: String) : this(name, emptyList(), emptyList())
+@Entity
+data class Group(
+    @PrimaryKey val name: String
+) {
 }
