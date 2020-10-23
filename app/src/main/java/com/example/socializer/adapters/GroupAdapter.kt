@@ -12,16 +12,6 @@ class GroupAdapter (private val mGroups: List<Group>) : RecyclerView.Adapter<Gro
 {
     var onItemClick: ((Group) -> Unit)? = null
 
-    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
-        val nameTextView: TextView = listItemView.findViewById<TextView>(R.id.group_name)
-
-        init {
-            itemView.setOnClickListener {
-                onItemClick?.invoke(mGroups[adapterPosition])
-            }
-        }
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupAdapter.ViewHolder {
         val context = parent.context
         val inflater = LayoutInflater.from(context)
@@ -38,5 +28,15 @@ class GroupAdapter (private val mGroups: List<Group>) : RecyclerView.Adapter<Gro
 
     override fun getItemCount(): Int {
         return mGroups.size
+    }
+
+    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
+        val nameTextView: TextView = listItemView.findViewById<TextView>(R.id.group_name)
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(mGroups[adapterPosition])
+            }
+        }
     }
 }
