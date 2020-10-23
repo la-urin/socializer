@@ -1,17 +1,25 @@
 package com.example.socializer.adapters
 
-import com.example.socializer.models.Group
-import androidx.recyclerview.widget.RecyclerView
-import com.example.socializer.R
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.LayoutInflater
 import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.socializer.R
+import com.example.socializer.models.Group
 
 class GroupAdapter (private val mGroups: List<Group>) : RecyclerView.Adapter<GroupAdapter.ViewHolder>()
 {
+    var onItemClick: ((Group) -> Unit)? = null
+
     inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
-        val nameTextView = listItemView.findViewById<TextView>(R.id.group_name)
+        val nameTextView: TextView = listItemView.findViewById<TextView>(R.id.group_name)
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(mGroups[adapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupAdapter.ViewHolder {
@@ -23,9 +31,9 @@ class GroupAdapter (private val mGroups: List<Group>) : RecyclerView.Adapter<Gro
     }
 
     override fun onBindViewHolder(viewHolder: GroupAdapter.ViewHolder, position: Int) {
-        val group: Group = mGroups.get(position)
+        val group: Group = mGroups[position]
         val textView = viewHolder.nameTextView
-        textView.setText(group.name)
+        textView.text = group.name
     }
 
     override fun getItemCount(): Int {

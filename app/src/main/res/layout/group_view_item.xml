@@ -10,5 +10,9 @@
       android:id="@+id/group_name"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:fontFamily="sans-serif-medium"
+      android:lineSpacingExtra="8sp"
+      android:textColor="@android:color/black"
+      android:textSize="24sp"
       tools:text="@tools:sample/lorem" />
 </LinearLayout>
