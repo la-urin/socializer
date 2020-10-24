@@ -1,5 +1,6 @@
 package com.example.socializer.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,35 +9,31 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.socializer.R
 import com.example.socializer.models.Group
 
-class GroupAdapter (private val mGroups: List<Group>) : RecyclerView.Adapter<GroupAdapter.ViewHolder>()
-{
-    var onItemClick: ((Group) -> Unit)? = null
+class GroupAdapter internal constructor(context: Context) :
+    RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupAdapter.ViewHolder {
-        val context = parent.context
-        val inflater = LayoutInflater.from(context)
-        val groupView = inflater.inflate(R.layout.group_view_item, parent, false)
+    private val inflater: LayoutInflater = LayoutInflater.from(context);
+    private var groups = emptyList<Group>()
 
-        return ViewHolder(groupView)
+    inner class GroupViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val groupItemView: TextView = itemView.findViewById(R.id.group_name)
     }
 
-    override fun onBindViewHolder(viewHolder: GroupAdapter.ViewHolder, position: Int) {
-        val group: Group = mGroups[position]
-        val textView = viewHolder.nameTextView
-        textView.text = group.name
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
+        val itemView = inflater.inflate(R.layout.group_view_item, parent, false)
+        return GroupViewHolder(itemView)
+    }
+
+    override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
+        val current: Group = groups[position]
+        holder.groupItemView.text = current.name
     }
 
     override fun getItemCount(): Int {
-        return mGroups.size
+        return groups.size
     }
 
-    inner class ViewHolder(listItemView: View) : RecyclerView.ViewHolder(listItemView) {
-        val nameTextView: TextView = listItemView.findViewById<TextView>(R.id.group_name)
-
-        init {
-            itemView.setOnClickListener {
-                onItemClick?.invoke(mGroups[adapterPosition])
-            }
-        }
+    internal fun setGroups(groups: List<Group>) {
+        this.groups = groups;
     }
 }

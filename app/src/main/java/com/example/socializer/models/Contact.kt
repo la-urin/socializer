@@ -6,6 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Contact(
-    @PrimaryKey val lookupKey: String,
-    @ColumnInfo(name = "lookup_key") val displayName: String
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name = "lookup_key") val lookupKey: String,
+    @ColumnInfo(name = "display_name") val displayName: String
 )

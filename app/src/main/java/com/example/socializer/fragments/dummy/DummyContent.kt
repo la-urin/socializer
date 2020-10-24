@@ -37,7 +37,7 @@ object DummyContent {
     }
 
     private fun createDummyContact(position: Int): Contact {
-        return Contact(position.toString(), "Item $position")
+        return Contact(position, position.toString(), "Item $position")
     }
 
     private fun makeDetails(position: Int): String {

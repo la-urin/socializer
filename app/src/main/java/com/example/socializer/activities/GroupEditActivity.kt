@@ -20,14 +20,16 @@ class GroupEditActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_edit)
 
-        val group = Group("Leos drunken gang.")
+        val groupName = intent.getStringExtra("GroupName")
+
+        val group = Group(0, "Hi")
 
         // Dynamic fragment insert
-        val mgr: FragmentManager = supportFragmentManager
-        val transaction = mgr.beginTransaction()
-        val fragment = GroupEditContactFragment()
-        transaction.add(R.id.group_edit_fragment_container, fragment)
-        transaction.commit()
+        // val mgr: FragmentManager = supportFragmentManager
+        // val transaction = mgr.beginTransaction()
+        // val fragment = GroupEditContactFragment()
+        // transaction.add(R.id.group_edit_fragment_container, fragment)
+        // transaction.commit()
 
         nameEditText = findViewById(R.id.group_edit_edittext_name)
         nameEditText.setText(group.name)

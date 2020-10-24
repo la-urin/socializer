@@ -1,4 +1,4 @@
-package com.example.socializer.database
+package com.example.socializer.models.database
 
 import android.content.Context
 import androidx.room.Database
@@ -9,29 +9,30 @@ import com.example.socializer.models.Group
 import com.example.socializer.models.Message
 
 @Database(entities = [Group::class, Contact::class, Message::class], version = 1)
-abstract class AppDatabase : RoomDatabase() {
+public abstract class AppDatabase : RoomDatabase() {
     abstract fun groupDao(): GroupDao
     abstract fun contactDao(): ContactDao
     abstract fun messageDao(): MessageDao
 
     companion object {
+        @Volatile
         private var INSTANCE: AppDatabase? = null
-        private const val DB_NAME = "app.db"
+        private  const val DB_NAME = "Socializer"
 
         fun getDatabase(context: Context): AppDatabase {
-            if (INSTANCE == null) {
-                synchronized(AppDatabase::class.java) {
-                    if (INSTANCE == null) {
-                        INSTANCE = Room.databaseBuilder(
-                            context.applicationContext,
-                            AppDatabase::class.java,
-                            DB_NAME
-                        ).allowMainThreadQueries().build()
-                    }
-                }
+            val tempInstance = INSTANCE
+            if (tempInstance != null) {
+                return tempInstance
             }
-
-            return INSTANCE!!
+            synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    DB_NAME
+                ).build()
+                INSTANCE = instance
+                return instance
+            }
         }
     }
 }
