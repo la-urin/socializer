@@ -23,4 +23,16 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
     fun insert(group: Group) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(group)
     }
+
+    fun update(group: Group) = viewModelScope.launch {
+        repository.update(group)
+    }
+
+    fun delete(group: Group) = viewModelScope.launch {
+        repository.delete(group)
+    }
+
+    fun getById(id: Int): Group {
+        return repository.getById(id);
+    }
 }

@@ -1,10 +1,7 @@
 package com.example.socializer.models.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.example.socializer.models.Group
 
 @Dao
@@ -18,8 +15,8 @@ interface GroupDao {
     @Insert
     fun insert(group: Group)
 
-    @Insert
-    fun insertAll(vararg groups: Group)
+    @Update
+    fun update(group: Group)
 
     @Delete
     fun delete(group: Group)

@@ -5,11 +5,15 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.ViewModelProvider
 import com.example.socializer.R
 import com.example.socializer.fragments.GroupEditContactFragment
 import com.example.socializer.models.Group
+import com.example.socializer.viewmodels.GroupViewModel
 
-class GroupEditActivity: AppCompatActivity() {
+class GroupEditActivity : AppCompatActivity() {
+    private lateinit var groupViewModel: GroupViewModel
+
     private lateinit var nameEditText: EditText
     private lateinit var messagesButton: Button
     private lateinit var contactsButton: Button
@@ -20,9 +24,19 @@ class GroupEditActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_edit)
 
-        val groupName = intent.getStringExtra("GroupName")
+        groupViewModel = ViewModelProvider(this).get(GroupViewModel::class.java)
+        val groupId = intent.getIntExtra("GroupId", 0)
+        if(groupId != 0)
+        {
+            var group = groupViewModel.getById(groupId)
 
-        val group = Group(0, "Hi")
+            nameEditText = findViewById(R.id.group_edit_edittext_name)
+            nameEditText.setText(group.name)
+
+            saveButton = findViewById(R.id.group_edit_button_save)
+            saveButton.setOnClickListener({
+            })
+        }
 
         // Dynamic fragment insert
         // val mgr: FragmentManager = supportFragmentManager
@@ -31,14 +45,9 @@ class GroupEditActivity: AppCompatActivity() {
         // transaction.add(R.id.group_edit_fragment_container, fragment)
         // transaction.commit()
 
-        nameEditText = findViewById(R.id.group_edit_edittext_name)
-        nameEditText.setText(group.name)
-
         messagesButton = findViewById(R.id.group_edit_button_messages)
 
         contactsButton = findViewById(R.id.group_edit_button_contacts)
-
-        saveButton = findViewById(R.id.group_edit_button_save)
 
         cancelButton = findViewById(R.id.group_edit_button_cancel)
     }
