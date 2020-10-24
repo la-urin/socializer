@@ -9,13 +9,12 @@ import com.example.socializer.R
 import com.example.socializer.fragments.GroupEditContactFragment
 import com.example.socializer.models.Group
 
-class GroupEditActivity(
-    private var nameEditText: EditText,
-    private var messagesButton: Button,
-    private var contactsButton: Button,
-    private var saveButton: Button,
-    private var cancelButton: Button
-) : AppCompatActivity() {
+class GroupEditActivity: AppCompatActivity() {
+    private lateinit var nameEditText: EditText
+    private lateinit var messagesButton: Button
+    private lateinit var contactsButton: Button
+    private lateinit var saveButton: Button
+    private lateinit var cancelButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

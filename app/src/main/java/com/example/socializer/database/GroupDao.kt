@@ -14,7 +14,7 @@ interface GroupDao {
     @Query("SELECT * FROM [group] WHERE name LIKE :name LIMIT 1")
     fun findByName(name: String): Group
 
-    @Insert
+    @Insert//(onConflict = OnConflictStrategy.ABORT)
     fun insert(group: Group)
 
     @Insert

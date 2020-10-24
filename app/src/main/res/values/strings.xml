@@ -3,6 +3,9 @@
 
     <string name="messages">Messages</string>
     <string name="contacts">Contacts</string>
+    <string name="groups">Groups</string>
+
+    <string name="createNewGroup">Group name</string>
 
     <!-- -->
     <string name="cancel">Cancel</string>
