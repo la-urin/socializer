@@ -14,5 +14,6 @@
     <string name="back">Back</string>
     <string name="save">Save</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
 
 </resources>
