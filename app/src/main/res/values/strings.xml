@@ -13,6 +13,4 @@
     <string name="save">Save</string>
 
     <string name="drunk_mode">Activate Drunk Mode</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
