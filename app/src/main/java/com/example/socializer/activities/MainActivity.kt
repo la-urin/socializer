@@ -108,7 +108,7 @@ class MainActivity() : AppCompatActivity() {
     private fun setupSortFunction() {
         val fab = findViewById<View>(R.id.groups_fab_sort) as FloatingActionButton
         fab.setOnClickListener {
-           // groupViewModel.groups.sortBy { it.name }
+            groupViewModel.sortBy(groupViewModel.currentSort)
         }
     }
 
