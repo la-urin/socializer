@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.socializer.R
 import com.example.socializer.models.Message
 
-class MessageAdapter(context: Context) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
+class MessageAdapter internal constructor(context: Context) : RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var messages = emptyList<Message>()
@@ -33,6 +33,7 @@ class MessageAdapter(context: Context) : RecyclerView.Adapter<MessageAdapter.Mes
     }
 
     internal fun setMessages(messages: List<Message>) {
-        this.messages = messages;
+        this.messages = messages
+        notifyDataSetChanged()
     }
 }
