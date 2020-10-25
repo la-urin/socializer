@@ -1,25 +1,20 @@
 package com.example.socializer.models.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.lifecycle.LiveData
+import androidx.room.*
 import com.example.socializer.models.Group
 import com.example.socializer.models.Message
 
 @Dao
 interface MessageDao {
     @Query("SELECT * FROM message")
-    fun getAll(): List<Message>
-
-    @Query("SELECT * FROM message WHERE id = :id LIMIT 1")
-    fun getById(id: Int): Message
+    fun getAll(): LiveData<List<Message>>
 
     @Insert
     fun insert(message: Message)
 
-    @Insert
-    fun insertAll(vararg messages: Message)
+    @Update
+    fun update(message: Message)
 
     @Delete
     fun delete(message: Message)

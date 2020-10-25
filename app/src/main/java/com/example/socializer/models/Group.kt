@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class Group(
     @PrimaryKey(autoGenerate = true) val id: Int,
-    @ColumnInfo val name: String
+    @ColumnInfo var name: String
 ) {
     constructor(name: String) : this(0, name)
 }

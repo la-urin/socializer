@@ -30,6 +30,7 @@ class GroupAdapter(context: Context, private val onItemClicked: (Group) -> Unit)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
         val itemView = inflater.inflate(R.layout.group_view_item, parent, false)
+
         return GroupViewHolder(itemView) {
             onItemClicked(groups[it])
         }

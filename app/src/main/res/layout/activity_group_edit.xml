@@ -6,47 +6,35 @@
     android:layout_height="match_parent"
     tools:context=".activities.GroupEditActivity">
 
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/activity_group_edit_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/activity_group_edit_tab_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/groups" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/activity_group_edit_tab_messages"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/messages" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/activity_group_edit_tab_contacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/contacts" />
+    </com.google.android.material.tabs.TabLayout>
+
     <FrameLayout
-        android:id="@+id/group_edit_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <EditText
-        android:id="@+id/group_edit_edittext_name"
+        android:id="@+id/activity_group_edit_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:autofillHints="@string/app_name"
-        android:inputType="text"
-        android:text="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/group_edit_button_messages"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/messages"
-        app:layout_constraintTop_toBottomOf="@id/group_edit_edittext_name" />
-
-    <Button
-        android:id="@+id/group_edit_button_contacts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/contacts"
-        app:layout_constraintTop_toBottomOf="@id/group_edit_button_messages" />
-
-    <Button
-        android:id="@+id/group_edit_button_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cancel"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <Button
-        android:id="@+id/group_edit_button_save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/save"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/activity_group_edit_fragment"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
