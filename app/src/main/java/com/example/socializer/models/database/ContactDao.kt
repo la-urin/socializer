@@ -1,5 +1,6 @@
 package com.example.socializer.models.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -10,10 +11,16 @@ import com.example.socializer.models.Group
 @Dao
 interface ContactDao {
     @Query("SELECT * FROM contact")
-    fun getAll(): List<Contact>
+    fun getAll(): LiveData<List<Contact>>
 
     @Query("SELECT * FROM contact WHERE id = :id LIMIT 1")
     fun getById(id: Int): Contact
+
+    @Query("SELECT * FROM contact WHERE group_id = :groupId")
+    fun getForGroup(groupId: Int): LiveData<List<Contact>>
+
+    @Query("SELECT * FROM contact WHERE contact_id = :contactId LIMIT 1")
+    fun getByExternalContactId(contactId: Long) : Contact?;
 
     @Insert
     fun insert(contact: Contact)

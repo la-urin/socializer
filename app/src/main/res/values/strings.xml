@@ -9,6 +9,9 @@
     <string name="create_new_group">Group name</string>
     <string name="drunk_mode">Activate Drunkmode</string>
 
+    <string name="pickContact">Pick Contact</string>
+    <string name="contactAlreadyAdded">Contact has already been added</string>
+
     <!-- -->
     <string name="saved_successfully">Saved!</string>
     <string name="back">Back</string>

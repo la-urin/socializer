@@ -1,32 +1,42 @@
 package com.example.socializer.fragments
 
+import android.Manifest
+import android.app.AlertDialog
+import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.socializer.R
+import com.example.socializer.adapters.ContactAdapter
+import com.example.socializer.adapters.ExternalContactDialogChoiceAdapter
+import com.example.socializer.models.Contact
+import com.example.socializer.models.ExternalContact
+import com.example.socializer.viewmodels.ContactViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_GROUP_ID = "GroupId"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ContactsEditFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ContactsEditFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var groupId: Int = 0
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var addButton: FloatingActionButton
+    private lateinit var viewModel: ContactViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            groupId = it.getInt(ARG_GROUP_ID)
         }
     }
 
@@ -35,25 +45,83 @@ class ContactsEditFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.contacts_edit_fragment, container, false)
+        val fragment = inflater.inflate(R.layout.contacts_edit_fragment, container, false)
+
+        val adapter = context?.let { ContactAdapter(it) { contact -> viewModel.delete(contact) } }
+
+        recyclerView = fragment.findViewById(R.id.contacts_edit_recycler_view)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        viewModel = ViewModelProvider(this).get(ContactViewModel::class.java)
+        viewModel.getForGroup(groupId).observe(
+            viewLifecycleOwner,
+            { contacts ->
+                contacts?.let {
+                    adapter?.setContacts(contacts)
+                }
+            })
+
+        addButton = fragment.findViewById(R.id.contacts_edit_add)
+        addButton.setOnClickListener {
+            pickExternalContact()
+        }
+
+        return fragment
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
+    private fun pickExternalContact() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_CONTACTS), 100);
+        } else {
+            val externalContacts = ArrayList<ExternalContact>()
+            val adapter = ExternalContactDialogChoiceAdapter(requireContext(), externalContacts)
+            val contentResolver = requireActivity().contentResolver
+            val cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null)
+            if (cursor?.moveToFirst() == true) {
+                do {
+                    val contactId = cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts._ID))
+                    val lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))
+                    val displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                    externalContacts.add(ExternalContact(contactId, lookupKey, displayName))
+                } while (cursor.moveToNext())
+
+                val alertDialogBuilder = AlertDialog.Builder(requireContext())
+                alertDialogBuilder.setTitle(R.string.pickContact)
+                alertDialogBuilder.setAdapter(adapter) { _, which ->
+                    val externalContact = adapter.getItem(which)
+                    if (externalContact != null) {
+                        if (viewModel.contactAlreadyAdded(externalContact.contactId)) {
+                            Toast.makeText(requireContext(), R.string.contactAlreadyAdded, Toast.LENGTH_LONG).show()
+                        } else {
+                            viewModel.insert(Contact(0, groupId, externalContact.contactId, externalContact.lookupKey, externalContact.displayName))
+                        }
+                    }
+                }
+                alertDialogBuilder.create().show()
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        pickExternalContact()
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContactsEditFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(groupId: Int) =
             ContactsEditFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putInt(ARG_GROUP_ID, groupId)
                 }
             }
     }
