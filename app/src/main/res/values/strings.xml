@@ -7,7 +7,7 @@
     <string name="group">Group</string>
 
     <string name="create_new_group">Group name</string>
-    <string name="drunk_mode">Group name</string>
+    <string name="drunk_mode">Activate Drunkmode</string>
 
     <!-- -->
     <string name="saved_successfully">Saved!</string>
