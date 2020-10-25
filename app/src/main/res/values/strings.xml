@@ -10,4 +10,6 @@
     <!-- -->
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+
+    <string name="drunk_mode">Activate Drunk Mode</string>
 </resources>

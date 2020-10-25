@@ -6,7 +6,7 @@ import com.example.socializer.models.Group
 
 @Dao
 interface GroupDao {
-    @Query("SELECT * FROM `group`")
+    @Query("SELECT * FROM `group` ORDER BY name ASC")
     fun getAll(): LiveData<List<Group>>
 
     @Query("SELECT * FROM `group` WHERE id = :id LIMIT 1")
