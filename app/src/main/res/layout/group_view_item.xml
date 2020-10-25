@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="20dp">
+    android:orientation="vertical">
 
   <TextView
       android:id="@+id/group_name"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:fontFamily="sans-serif-medium"
-      android:lineSpacingExtra="8sp"
-      android:textColor="@android:color/black"
-      android:textSize="24sp"
-      tools:text="@tools:sample/lorem" />
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"/>
 </LinearLayout>

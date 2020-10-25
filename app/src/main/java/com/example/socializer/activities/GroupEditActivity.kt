@@ -34,8 +34,10 @@ class GroupEditActivity : AppCompatActivity() {
             nameEditText.setText(group.name)
 
             saveButton = findViewById(R.id.group_edit_button_save)
-            saveButton.setOnClickListener({
-            })
+
+            messagesButton = findViewById(R.id.group_edit_button_messages)
+
+            contactsButton = findViewById(R.id.group_edit_button_contacts)
         }
 
         // Dynamic fragment insert
@@ -45,9 +47,7 @@ class GroupEditActivity : AppCompatActivity() {
         // transaction.add(R.id.group_edit_fragment_container, fragment)
         // transaction.commit()
 
-        messagesButton = findViewById(R.id.group_edit_button_messages)
 
-        contactsButton = findViewById(R.id.group_edit_button_contacts)
 
         cancelButton = findViewById(R.id.group_edit_button_cancel)
     }

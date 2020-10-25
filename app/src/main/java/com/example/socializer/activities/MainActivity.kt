@@ -1,10 +1,8 @@
 package com.example.socializer.activities
 
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -12,8 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socializer.R
@@ -21,7 +17,6 @@ import com.example.socializer.adapters.GroupAdapter
 import com.example.socializer.models.Group
 import com.example.socializer.viewmodels.GroupViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity() : AppCompatActivity() {
@@ -32,8 +27,13 @@ class MainActivity() : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         title = "Groups"
 
-        val recyclerView  = findViewById<RecyclerView>(R.id.groups_recycler_view)
-        val adapter = GroupAdapter(this)
+        val recyclerView = findViewById<RecyclerView>(R.id.groups_recycler_view)
+        val adapter = GroupAdapter(this) {
+            val intent: Intent = Intent(this, GroupEditActivity::class.java)
+            intent.putExtra("GroupId", it.id)
+            startActivity(intent)
+        }
+
         recyclerView.adapter = adapter;
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -53,7 +53,7 @@ class MainActivity() : AppCompatActivity() {
             alertDialogBuilder
                 .setCancelable(false)
                 .setPositiveButton("OK") { _, _ ->
-                    val group = Group( userInput.text.toString())
+                    val group = Group(userInput.text.toString())
                     groupViewModel.insert(group)
 
                     Toast.makeText(applicationContext, userInput.text, Toast.LENGTH_SHORT).show()
