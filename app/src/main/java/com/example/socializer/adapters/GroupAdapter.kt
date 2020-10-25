@@ -46,6 +46,7 @@ class GroupAdapter(context: Context, private val onItemClicked: (Group) -> Unit)
     }
 
     internal fun setGroups(groups: List<Group>) {
-        this.groups = groups;
+        this.groups = groups
+        notifyDataSetChanged()
     }
 }
