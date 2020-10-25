@@ -6,7 +6,6 @@ import com.example.socializer.models.database.GroupDao
 
 class GroupRepository(private val dao: GroupDao) {
     val groups = MutableLiveData<List<Group>>()
-    fun getAllDecks(): MutableLiveData<List<Group>> = groups
 
     fun insert(group: Group) {
         dao.insert(group)
