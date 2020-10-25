@@ -10,9 +10,9 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socializer.R
@@ -20,6 +20,7 @@ import com.example.socializer.adapters.GroupAdapter
 import com.example.socializer.models.Group
 import com.example.socializer.viewmodels.GroupViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 class MainActivity() : AppCompatActivity() {
     private lateinit var groupViewModel: GroupViewModel
@@ -72,6 +73,8 @@ class MainActivity() : AppCompatActivity() {
         groupViewModel.groups.observe(this, Observer { groups ->
             groups?.let { adapter.setGroups(it) }
         })
+
+        recyclerView.addItemDecoration(DividerItemDecoration(applicationContext,DividerItemDecoration.VERTICAL))
     }
 
     private fun setupAddGroupDialog() {
