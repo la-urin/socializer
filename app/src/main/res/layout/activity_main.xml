@@ -23,25 +23,13 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_baseline_add_24" />
-<<<<<<< HEAD
-=======
 
->>>>>>> ebc62ae929ea84788697ee16ddbd587fdd67f611
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/groups_fab_sort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|end"
         android:layout_margin="16dp"
-<<<<<<< HEAD
         android:src="@drawable/ic_baseline_sort_by_alpha_24"
         app:backgroundTint="#595959" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-=======
-        android:hapticFeedbackEnabled="true"
-        android:src="@drawable/ic_baseline_sort_by_alpha_24"
-        app:backgroundTint="#676767" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
-
->>>>>>> ebc62ae929ea84788697ee16ddbd587fdd67f611
