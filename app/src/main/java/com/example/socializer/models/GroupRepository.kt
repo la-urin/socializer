@@ -1,10 +1,12 @@
 package com.example.socializer.models
 
-import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import com.example.socializer.enums.Sort
 import com.example.socializer.models.database.GroupDao
 
 class GroupRepository(private val dao: GroupDao) {
-    val groups: LiveData<List<Group>> = dao.getAll()
+    val groups = MutableLiveData<List<Group>>()
+    fun getAllDecks(): MutableLiveData<List<Group>> = groups
 
     fun insert(group: Group) {
         dao.insert(group)
@@ -20,5 +22,12 @@ class GroupRepository(private val dao: GroupDao) {
 
     fun getById(id: Int): Group {
         return dao.getById(id);
+    }
+
+    fun sortBy(sortingMethod: Sort) {
+        when (sortingMethod) {
+            Sort.ALPHA_ASC -> groups.postValue(dao.getGroupsSortedByAlphaAsc())
+            Sort.ALPHA_DES -> groups.postValue(dao.getGroupsSortedByAlphaDesc())
+        }
     }
 }

@@ -88,13 +88,13 @@ class MainActivity() : AppCompatActivity() {
             alertDialogBuilder.setView(promptsView)
             alertDialogBuilder
                     .setCancelable(false)
-                    .setPositiveButton("OK") { _, _ ->
+                    .setPositiveButton(R.string.ok) { _, _ ->
                         val group = Group(userInput.text.toString())
                         groupViewModel.insert(group)
 
                         Toast.makeText(applicationContext, String.format("Group %s added", userInput.text), Toast.LENGTH_SHORT).show()
                     }
-                    .setNegativeButton("Cancel") { _, _ ->
+                    .setNegativeButton(R.string.cancel) { _, _ ->
                         Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT)
                                 .show()
                     }
@@ -108,7 +108,7 @@ class MainActivity() : AppCompatActivity() {
     private fun setupSortFunction() {
         val fab = findViewById<View>(R.id.groups_fab_sort) as FloatingActionButton
         fab.setOnClickListener {
-           // groupViewModel.groups.sortBy { it.name }
+            groupViewModel.sortBy(groupViewModel.currentSort)
         }
     }
 
