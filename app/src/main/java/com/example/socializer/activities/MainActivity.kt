@@ -18,7 +18,6 @@ import com.example.socializer.models.Group
 import com.example.socializer.viewmodels.GroupViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-
 class MainActivity() : AppCompatActivity() {
     private lateinit var groupViewModel: GroupViewModel
 

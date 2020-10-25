@@ -8,6 +8,7 @@
     <string name="createNewGroup">Group name</string>
 
     <!-- -->
-    <string name="cancel">Cancel</string>
+    <string name="saved_successfully">Saved!</string>
+    <string name="back">Back</string>
     <string name="save">Save</string>
 </resources>

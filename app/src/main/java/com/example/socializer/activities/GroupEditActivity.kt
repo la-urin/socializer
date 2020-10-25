@@ -1,9 +1,11 @@
 package com.example.socializer.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.example.socializer.R
@@ -26,18 +28,31 @@ class GroupEditActivity : AppCompatActivity() {
 
         groupViewModel = ViewModelProvider(this).get(GroupViewModel::class.java)
         val groupId = intent.getIntExtra("GroupId", 0)
-        if(groupId != 0)
-        {
+        if (groupId != 0) {
             var group = groupViewModel.getById(groupId)
 
             nameEditText = findViewById(R.id.group_edit_edittext_name)
             nameEditText.setText(group.name)
 
-            saveButton = findViewById(R.id.group_edit_button_save)
-
             messagesButton = findViewById(R.id.group_edit_button_messages)
 
             contactsButton = findViewById(R.id.group_edit_button_contacts)
+
+            saveButton = findViewById(R.id.group_edit_button_save)
+            saveButton.setOnClickListener {
+                group.name = nameEditText.text.toString()
+                groupViewModel.update(group)
+
+                Toast.makeText(applicationContext, R.string.saved_successfully, Toast.LENGTH_LONG)
+                    .show()
+            }
+
+            cancelButton = findViewById(R.id.group_edit_button_back)
+            cancelButton.setOnClickListener {
+                gotToMainActivity()
+            }
+        } else {
+            gotToMainActivity()
         }
 
         // Dynamic fragment insert
@@ -46,9 +61,10 @@ class GroupEditActivity : AppCompatActivity() {
         // val fragment = GroupEditContactFragment()
         // transaction.add(R.id.group_edit_fragment_container, fragment)
         // transaction.commit()
+    }
 
-
-
-        cancelButton = findViewById(R.id.group_edit_button_cancel)
+    private fun gotToMainActivity() {
+        val intent: Intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 }
