@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class GroupViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: GroupRepository
-    val groups: LiveData<List<Group>>
+    var groups: LiveData<List<Group>>
 
     init {
         val dao = AppDatabase.getDatabase(application).groupDao()
