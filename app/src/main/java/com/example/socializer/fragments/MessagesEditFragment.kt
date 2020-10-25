@@ -23,11 +23,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class MessagesEditFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var addButton: FloatingActionButton
-
-    companion object {
-        fun newInstance() = MessagesEditFragment()
-    }
-
     private lateinit var viewModel: MessageViewModel
 
     override fun onCreateView(
@@ -50,7 +45,7 @@ class MessagesEditFragment : Fragment() {
                 }.setNegativeButton(R.string.cancel, null).create().show()
         }
 
-        val adapter = context?.let { MessageAdapter(it) }
+        val adapter = context?.let { MessageAdapter(it, {}, {}) }
 
         recyclerView = fragment.findViewById(R.id.messages_edit_recycler_view)
         recyclerView.adapter = adapter
@@ -66,5 +61,4 @@ class MessagesEditFragment : Fragment() {
             })
         return fragment
     }
-
 }

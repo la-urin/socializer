@@ -13,7 +13,14 @@
     <string name="saved_successfully">Saved!</string>
     <string name="back">Back</string>
     <string name="save">Save</string>
+<<<<<<< HEAD
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+=======
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
+>>>>>>> ebc62ae929ea84788697ee16ddbd587fdd67f611
 
+    <string name="drunk_mode">Drunk Mode!!!</string>
+    <string name="groups_fab_sort">Sort</string>
 </resources>
