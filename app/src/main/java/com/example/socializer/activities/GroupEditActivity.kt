@@ -56,6 +56,6 @@ class GroupEditActivity : AppCompatActivity() {
         }
 
         fragmentManager.beginTransaction()
-            .add(R.id.activity_group_edit_fragment, currentFragment).commit()
+            .replace(R.id.activity_group_edit_fragment, currentFragment).commit()
     }
 }

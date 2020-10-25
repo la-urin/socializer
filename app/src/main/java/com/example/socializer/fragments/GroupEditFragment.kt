@@ -25,7 +25,7 @@ class GroupEditFragment : Fragment() {
         arguments?.let {
             groupId = it.getInt(ARG_PARAM_GROUP_ID)
         }
-        
+
         groupViewModel = ViewModelProvider(this).get(GroupViewModel::class.java)
     }
 

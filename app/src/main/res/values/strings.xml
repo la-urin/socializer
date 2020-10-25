@@ -5,6 +5,8 @@
     <string name="contacts">Contacts</string>
     <string name="groups">Groups</string>
     <string name="group">Group</string>
+    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
 
     <string name="createNewGroup">Group name</string>
 
