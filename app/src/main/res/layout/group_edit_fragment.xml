@@ -7,18 +7,11 @@
     android:layout_height="match_parent"
     tools:context=".fragments.GroupEditFragment">
 
-    <EditText
-        android:id="@+id/group_edit_fragment_edit_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autofillHints="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent"
-        android:inputType="text" />
-
     <Button
-        android:id="@+id/group_edit_fragment_button_save"
+        android:id="@+id/message_broadcast_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/group_edit_fragment_edit_name"
-        android:text="@string/save" />
+        android:text="@string/send_broadcast_message"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

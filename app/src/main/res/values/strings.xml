@@ -21,4 +21,7 @@
     <string name="ok">OK</string>
 
     <string name="groups_fab_sort">Sort</string>
+
+    <string name="send_broadcast_message">Send Broadcast Message</string>
+    <string name="edit_modal">Edit</string>
 </resources>

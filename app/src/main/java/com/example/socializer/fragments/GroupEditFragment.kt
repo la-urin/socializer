@@ -1,5 +1,6 @@
 package com.example.socializer.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -34,17 +35,7 @@ class GroupEditFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val group = groupViewModel.getById(groupId!!)
-
         val fragment = inflater.inflate(R.layout.group_edit_fragment, container, false)
-        nameEditText = fragment.findViewById(R.id.group_edit_fragment_edit_name)
-        nameEditText.setText(group.name)
-
-        saveButton = fragment.findViewById(R.id.group_edit_fragment_button_save)
-        saveButton.setOnClickListener {
-            group.name = nameEditText.text.toString()
-            groupViewModel.update(group)
-            Toast.makeText(context, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
-        }
 
         return fragment
     }
