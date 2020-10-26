@@ -74,7 +74,6 @@ class MainActivity() : AppCompatActivity() {
         groupViewModel.groups.observe(this, Observer { groups ->
             groups?.let { adapter.setGroups(it) }
         })
-        groupViewModel.sortBy(groupViewModel.currentSort)
 
         recyclerView.addItemDecoration(DividerItemDecoration(applicationContext,DividerItemDecoration.VERTICAL))
     }
@@ -110,7 +109,7 @@ class MainActivity() : AppCompatActivity() {
     private fun setupSortFunction() {
         val fab = findViewById<View>(R.id.groups_fab_sort) as FloatingActionButton
         fab.setOnClickListener {
-            groupViewModel.sortBy(groupViewModel.currentSort)
+            groupViewModel.toggleSortMode()
         }
     }
 
