@@ -41,19 +41,7 @@ class MessagesEditFragment : Fragment() {
         // Inflate the layout for this fragment
         val fragment = inflater.inflate(R.layout.messages_edit_fragment, container, false)
 
-        val addButton = fragment.findViewById<FloatingActionButton>(R.id.messages_edit_fragment_add)
-        addButton.setOnClickListener {
-            val popupView = inflater.inflate(R.layout.message_edit_dialog, null)
-            val builder = AlertDialog.Builder(context)
-            val userInput: EditText = popupView.findViewById(R.id.message_edit_dialog_edit_text)
-
-            builder.setView(popupView).setCancelable(true)
-                .setPositiveButton(R.string.ok) { _, _ ->
-                    val message = Message(groupId, userInput.text.toString())
-                    viewModel.insert(message)
-                    Toast.makeText(context, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
-                }.setNegativeButton(R.string.cancel, null).create().show()
-        }
+        setupAddMessageDialog(fragment)
 
         val adapter = context?.let { MessageAdapter(it, {}, {}) }
 
@@ -65,6 +53,24 @@ class MessagesEditFragment : Fragment() {
         { messages -> messages?.let { adapter?.setMessages(messages) } }
 
         return fragment
+    }
+
+    private fun setupAddMessageDialog(fragment: View){
+        val button = fragment.findViewById<FloatingActionButton>(R.id.messages_edit_fragment_add)
+        val inflater = LayoutInflater.from(context)
+        val builder = AlertDialog.Builder(context)
+
+        button.setOnClickListener {
+            val popupView = inflater.inflate(R.layout.message_edit_dialog, null)
+            val userInput: EditText = popupView.findViewById(R.id.message_edit_dialog_edit_text)
+
+            builder.setView(popupView).setCancelable(true)
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    val message = Message(groupId, userInput.text.toString())
+                    viewModel.insert(message)
+                    Toast.makeText(context, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
+                }.setNegativeButton(R.string.cancel, null).create().show()
+        }
     }
 
     companion object {

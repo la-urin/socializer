@@ -15,9 +15,11 @@ import com.example.socializer.R
 import com.example.socializer.fragments.ContactsEditFragment
 import com.example.socializer.fragments.GroupEditFragment
 import com.example.socializer.fragments.MessagesEditFragment
+import com.example.socializer.models.Group
 import com.example.socializer.viewmodels.GroupViewModel
 import com.google.android.material.tabs.TabLayout
 
+private const val ARG_GROUP_ID = "GroupId"
 
 class GroupEditActivity : AppCompatActivity() {
     private lateinit var messagesEditFragment: MessagesEditFragment
