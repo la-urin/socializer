@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -90,10 +92,7 @@ class MainActivity() : AppCompatActivity() {
             alertDialogBuilder
                     .setCancelable(false)
                     .setPositiveButton(R.string.ok) { _, _ ->
-                        val group = Group(userInput.text.toString())
-                        groupViewModel.insert(group)
-
-                        Toast.makeText(applicationContext, String.format("Group %s added", userInput.text), Toast.LENGTH_SHORT).show()
+                        insertGroup(userInput.text.toString())
                     }
                     .setNegativeButton(R.string.cancel) { _, _ ->
                         Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT)
@@ -103,7 +102,23 @@ class MainActivity() : AppCompatActivity() {
             var alertDialog: AlertDialog = alertDialogBuilder.create();
 
             alertDialog.show();
+
+            userInput.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    alertDialog.dismiss()
+                    insertGroup(userInput.text.toString())
+                    return@setOnEditorActionListener true;
+                }
+
+                return@setOnEditorActionListener false;
+            }
         }
+    }
+
+    private fun insertGroup(name: String) {
+        val group = Group(name)
+        groupViewModel.insert(group)
+        Toast.makeText(applicationContext, String.format("Group %s added", group.name), Toast.LENGTH_SHORT).show()
     }
 
     private fun setupSortFunction() {
