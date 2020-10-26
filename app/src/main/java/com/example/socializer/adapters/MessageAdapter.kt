@@ -16,7 +16,6 @@ class MessageAdapter(
     private val onItemDeleteClicked: (Message) -> Unit
 ) :
     RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {
-
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var messages = emptyList<Message>()
 

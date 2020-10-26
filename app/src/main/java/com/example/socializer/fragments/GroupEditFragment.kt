@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.socializer.R
 import com.example.socializer.viewmodels.GroupViewModel
 
-private const val ARG_PARAM_GROUP_ID = "GroupId"
+private const val ARG_GROUP_ID = "GroupId"
 
 class GroupEditFragment : Fragment() {
     private var groupId: Int? = null
@@ -23,11 +23,9 @@ class GroupEditFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            groupId = it.getInt(ARG_PARAM_GROUP_ID)
-        }
 
-        groupViewModel = ViewModelProvider(this).get(GroupViewModel::class.java)
+        arguments?.let { groupId = it.getInt(ARG_GROUP_ID) }
+        groupViewModel = ViewModelProvider(this)[GroupViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -38,5 +36,12 @@ class GroupEditFragment : Fragment() {
         val fragment = inflater.inflate(R.layout.group_edit_fragment, container, false)
 
         return fragment
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(groupId: Int) = GroupEditFragment().apply {
+            arguments = Bundle().apply { putInt(ARG_GROUP_ID, groupId) }
+        }
     }
 }

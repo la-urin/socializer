@@ -20,26 +20,36 @@ import com.example.socializer.models.Message
 import com.example.socializer.viewmodels.MessageViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
+private const val ARG_GROUP_ID = "GroupId"
+
 class MessagesEditFragment : Fragment() {
+    private var groupId: Int = 0
     private lateinit var recyclerView: RecyclerView
-    private lateinit var addButton: FloatingActionButton
     private lateinit var viewModel: MessageViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let { groupId = it.getInt(ARG_GROUP_ID) }
+        viewModel = ViewModelProvider(this)[MessageViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Inflate the layout for this fragment
         val fragment = inflater.inflate(R.layout.messages_edit_fragment, container, false)
 
-        val fab = fragment.findViewById<FloatingActionButton>(R.id.messages_edit_fragment_add)
-        fab.setOnClickListener {
-            val popupView = inflater.inflate(R.layout.alert_dialog_groupname, null)
-            var builder = AlertDialog.Builder(context)
-            var userInput: EditText = popupView.findViewById(R.id.editTextDialogUserInput)
+        val addButton = fragment.findViewById<FloatingActionButton>(R.id.messages_edit_fragment_add)
+        addButton.setOnClickListener {
+            val popupView = inflater.inflate(R.layout.message_edit_dialog, null)
+            val builder = AlertDialog.Builder(context)
+            val userInput: EditText = popupView.findViewById(R.id.message_edit_dialog_edit_text)
 
             builder.setView(popupView).setCancelable(true)
                 .setPositiveButton(R.string.ok) { _, _ ->
-                    val message = Message(userInput.text.toString())
+                    val message = Message(groupId, userInput.text.toString())
                     viewModel.insert(message)
                     Toast.makeText(context, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
                 }.setNegativeButton(R.string.cancel, null).create().show()
@@ -51,14 +61,16 @@ class MessagesEditFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        viewModel = ViewModelProvider(this).get(MessageViewModel::class.java)
         viewModel.messages.observe(
             viewLifecycleOwner,
-            Observer { messages ->
-                messages?.let {
-                    adapter?.setMessages(messages)
-                }
-            })
+            { messages -> messages?.let { adapter?.setMessages(messages) } })
         return fragment
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(groupId: Int) = MessagesEditFragment().apply {
+            arguments = Bundle().apply { putInt(ARG_GROUP_ID, groupId) }
+        }
     }
 }

@@ -20,10 +20,10 @@ import com.google.android.material.tabs.TabLayout
 
 
 class GroupEditActivity : AppCompatActivity() {
-    private val messagesEditFragment = MessagesEditFragment()
-    private val contactsEditFragment = ContactsEditFragment()
-    private val groupEditFragment = GroupEditFragment()
-    private var currentFragment: Fragment = groupEditFragment;
+    private lateinit var messagesEditFragment: MessagesEditFragment
+    private lateinit var contactsEditFragment: ContactsEditFragment
+    private lateinit var groupEditFragment: GroupEditFragment
+    private var currentFragment: Fragment = groupEditFragment
     private val fragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +31,10 @@ class GroupEditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_group_edit)
 
         val groupId: Int = intent.getIntExtra("GroupId", 0)
+        messagesEditFragment = MessagesEditFragment.newInstance(groupId)
+        contactsEditFragment = ContactsEditFragment.newInstance(groupId)
+        groupEditFragment = GroupEditFragment.newInstance(groupId)
+
         val groupViewModel = ViewModelProvider(this).get(GroupViewModel::class.java)
         val group = groupViewModel.getById(groupId)
 
@@ -78,16 +82,17 @@ class GroupEditActivity : AppCompatActivity() {
 
         alertDialogBuilder.setView(promptsView)
         alertDialogBuilder
-                .setCancelable(false)
-                .setPositiveButton(R.string.ok) { _, _ ->
-                    group.name = userInput.text.toString()
-                    groupViewModel.update(group)
-                    title = group.name
-                    Toast.makeText(applicationContext, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
-                }
-                .setNegativeButton(R.string.cancel) { _, _ ->
-                    Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT).show()
-                }
+            .setCancelable(false)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                group.name = userInput.text.toString()
+                groupViewModel.update(group)
+                title = group.name
+                Toast.makeText(applicationContext, R.string.saved_successfully, Toast.LENGTH_SHORT)
+                    .show()
+            }
+            .setNegativeButton(R.string.cancel) { _, _ ->
+                Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT).show()
+            }
 
         var alertDialog: AlertDialog = alertDialogBuilder.create();
 

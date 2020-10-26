@@ -30,9 +30,7 @@ class ContactsEditFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            groupId = it.getInt(ARG_GROUP_ID)
-        }
+        arguments?.let { groupId = it.getInt(ARG_GROUP_ID) }
     }
 
     override fun onCreateView(
@@ -77,13 +75,27 @@ class ContactsEditFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_CONTACT && resultCode == RESULT_OK) {
-            val cursor = data!!.data?.let { requireActivity().contentResolver.query(it, null, null, null, null) }
+            val cursor = data!!.data?.let {
+                requireActivity().contentResolver.query(
+                    it,
+                    null,
+                    null,
+                    null,
+                    null
+                )
+            }
             if (cursor?.moveToFirst() == true) {
                 val contactId = cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts._ID))
-                val lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))
-                val displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                val lookupKey =
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))
+                val displayName =
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
                 if (viewModel.contactAlreadyAdded(contactId)) {
-                    Toast.makeText(requireContext(), R.string.contactAlreadyAdded, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        requireContext(),
+                        R.string.contactAlreadyAdded,
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     viewModel.insert(Contact(0, groupId, contactId, lookupKey, displayName))
                 }
@@ -102,11 +114,8 @@ class ContactsEditFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance(groupId: Int) =
-            ContactsEditFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(ARG_GROUP_ID, groupId)
-                }
-            }
+        fun newInstance(groupId: Int) = ContactsEditFragment().apply {
+            arguments = Bundle().apply { putInt(ARG_GROUP_ID, groupId) }
+        }
     }
 }

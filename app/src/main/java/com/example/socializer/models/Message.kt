@@ -8,7 +8,8 @@ import java.lang.reflect.Constructor
 @Entity
 data class Message(
     @PrimaryKey(autoGenerate = true) val id: Int,
+    @ColumnInfo(name = "group_id") val groupId: Int,
     @ColumnInfo val text: String
 ) {
-    constructor(text: String) : this(0, text)
+    constructor(groupId: Int, text: String) : this(0, groupId, text)
 }
