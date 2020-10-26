@@ -1,30 +1,25 @@
 package com.example.socializer.fragments
 
-import android.Manifest
-import android.app.AlertDialog
-import android.content.pm.PackageManager
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ListView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socializer.R
 import com.example.socializer.adapters.ContactAdapter
-import com.example.socializer.adapters.ExternalContactDialogChoiceAdapter
 import com.example.socializer.models.Contact
-import com.example.socializer.models.ExternalContact
 import com.example.socializer.viewmodels.ContactViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 private const val ARG_GROUP_ID = "GroupId"
+const val PICK_CONTACT = 2015
 
 class ContactsEditFragment : Fragment() {
     private var groupId: Int = 0
@@ -75,34 +70,23 @@ class ContactsEditFragment : Fragment() {
     }
 
     private fun pickExternalContact() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.READ_CONTACTS), 100);
-        } else {
-            val externalContacts = ArrayList<ExternalContact>()
-            val adapter = ExternalContactDialogChoiceAdapter(requireContext(), externalContacts)
-            val contentResolver = requireActivity().contentResolver
-            val cursor = contentResolver.query(ContactsContract.Contacts.CONTENT_URI,null,null,null,null)
-            if (cursor?.moveToFirst() == true) {
-                do {
-                    val contactId = cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts._ID))
-                    val lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))
-                    val displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                    externalContacts.add(ExternalContact(contactId, lookupKey, displayName))
-                } while (cursor.moveToNext())
+        val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
+        startActivityForResult(intent, PICK_CONTACT)
+    }
 
-                val alertDialogBuilder = AlertDialog.Builder(requireContext())
-                alertDialogBuilder.setTitle(R.string.pickContact)
-                alertDialogBuilder.setAdapter(adapter) { _, which ->
-                    val externalContact = adapter.getItem(which)
-                    if (externalContact != null) {
-                        if (viewModel.contactAlreadyAdded(externalContact.contactId)) {
-                            Toast.makeText(requireContext(), R.string.contactAlreadyAdded, Toast.LENGTH_LONG).show()
-                        } else {
-                            viewModel.insert(Contact(0, groupId, externalContact.contactId, externalContact.lookupKey, externalContact.displayName))
-                        }
-                    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == PICK_CONTACT && resultCode == RESULT_OK) {
+            val cursor = data!!.data?.let { requireActivity().contentResolver.query(it, null, null, null, null) }
+            if (cursor?.moveToFirst() == true) {
+                val contactId = cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts._ID))
+                val lookupKey = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))
+                val displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                if (viewModel.contactAlreadyAdded(contactId)) {
+                    Toast.makeText(requireContext(), R.string.contactAlreadyAdded, Toast.LENGTH_LONG).show()
+                } else {
+                    viewModel.insert(Contact(0, groupId, contactId, lookupKey, displayName))
                 }
-                alertDialogBuilder.create().show()
             }
         }
     }
