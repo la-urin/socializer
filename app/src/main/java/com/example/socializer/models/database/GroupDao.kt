@@ -23,8 +23,8 @@ interface GroupDao {
     fun delete(group: Group)
 
     @Query("SELECT * FROM `group` ORDER BY name ASC")
-    fun getGroupsSortedByAlphaAsc(): List<Group>
+    fun getGroupsSortedByAlphaAsc(): LiveData<List<Group>>
 
     @Query("SELECT * FROM `group` ORDER BY name DESC")
-    fun getGroupsSortedByAlphaDesc(): List<Group>
+    fun getGroupsSortedByAlphaDesc(): LiveData<List<Group>>
 }

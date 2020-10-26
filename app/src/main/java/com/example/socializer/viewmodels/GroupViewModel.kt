@@ -1,25 +1,30 @@
 package com.example.socializer.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.socializer.enums.Sort
 import com.example.socializer.models.Group
 import com.example.socializer.models.GroupRepository
 import com.example.socializer.models.database.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class GroupViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: GroupRepository
-    var groups: MutableLiveData<List<Group>>
-    var currentSort: Sort = Sort.ALPHA_ASC
+    private val currentSort: MutableLiveData<Sort> = MutableLiveData(Sort.ALPHA_ASC)
+    var groups: LiveData<List<Group>>
 
     init {
         val dao = AppDatabase.getDatabase(application).groupDao()
         repository = GroupRepository(dao)
-        groups = repository.groups
+        groups = currentSort.switchMap { value ->
+            if (value == Sort.ALPHA_DES) {
+                return@switchMap repository.getGroupsSortedByAlphaDesc()
+            }
+
+            return@switchMap repository.getGroupsSortedByAlphaAsc()
+        }
     }
 
     fun insert(group: Group) = viewModelScope.launch(Dispatchers.IO) {
@@ -38,16 +43,11 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getById(id);
     }
 
-    fun sortBy(sortMethod: Sort) = viewModelScope.launch(Dispatchers.IO) {
-        when (sortMethod) {
-            Sort.ALPHA_ASC -> {
-                repository.sortBy(Sort.ALPHA_ASC)
-                currentSort = Sort.ALPHA_DES
-            }
-            Sort.ALPHA_DES -> {
-                repository.sortBy(Sort.ALPHA_DES)
-                currentSort = Sort.ALPHA_ASC
-            }
+    fun toggleSortMode() = viewModelScope.launch(Dispatchers.IO) {
+        if (currentSort.value == Sort.ALPHA_DES) {
+            currentSort.postValue(Sort.ALPHA_ASC)
+        } else {
+            currentSort.postValue(Sort.ALPHA_DES)
         }
     }
 }
