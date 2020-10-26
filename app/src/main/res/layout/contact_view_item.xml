@@ -2,16 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/border_bottom"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:minHeight="?android:attr/listPreferredItemHeight">
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/contact_view_item_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:textAppearance="@android:style/TextAppearance.Material.Large"/>
+        android:textAppearance="@android:style/TextAppearance.Material.Large" />
 
     <ImageButton
         android:id="@+id/contact_view_item_button_delete"
