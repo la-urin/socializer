@@ -61,9 +61,9 @@ class MessagesEditFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        viewModel.messages.observe(
-            viewLifecycleOwner,
-            { messages -> messages?.let { adapter?.setMessages(messages) } })
+        viewModel.getForGroup(groupId).observe(viewLifecycleOwner)
+        { messages -> messages?.let { adapter?.setMessages(messages) } }
+
         return fragment
     }
 

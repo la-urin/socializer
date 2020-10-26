@@ -32,10 +32,7 @@ class GroupEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val group = groupViewModel.getById(groupId!!)
-        val fragment = inflater.inflate(R.layout.group_edit_fragment, container, false)
-
-        return fragment
+        return inflater.inflate(R.layout.group_edit_fragment, container, false)
     }
 
     companion object {

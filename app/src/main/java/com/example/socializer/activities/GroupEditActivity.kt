@@ -23,34 +23,27 @@ class GroupEditActivity : AppCompatActivity() {
     private lateinit var messagesEditFragment: MessagesEditFragment
     private lateinit var contactsEditFragment: ContactsEditFragment
     private lateinit var groupEditFragment: GroupEditFragment
-    private var currentFragment: Fragment = groupEditFragment
+    private lateinit var currentFragment: Fragment
     private val fragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_edit)
 
+        val viewModel = ViewModelProvider(this)[GroupViewModel::class.java]
         val groupId: Int = intent.getIntExtra("GroupId", 0)
-        messagesEditFragment = MessagesEditFragment.newInstance(groupId)
-        contactsEditFragment = ContactsEditFragment.newInstance(groupId)
-        groupEditFragment = GroupEditFragment.newInstance(groupId)
-
-        val groupViewModel = ViewModelProvider(this).get(GroupViewModel::class.java)
-        val group = groupViewModel.getById(groupId)
-
+        val group = viewModel.getById(groupId)
         title = group.name
 
-        val bundle = Bundle()
-        bundle.putInt("GroupId", groupId)
-        messagesEditFragment.arguments = bundle
-        contactsEditFragment.arguments = bundle
-        groupEditFragment.arguments = bundle
+        messagesEditFragment = MessagesEditFragment.newInstance(group.id)
+        contactsEditFragment = ContactsEditFragment.newInstance(group.id)
+        groupEditFragment = GroupEditFragment.newInstance(group.id)
+        currentFragment = groupEditFragment
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        fragmentManager.beginTransaction()
-            .add(R.id.activity_group_edit_fragment, currentFragment)
+        fragmentManager.beginTransaction().add(R.id.activity_group_edit_fragment, currentFragment)
             .commit()
 
         val tabLayout = findViewById<TabLayout>(R.id.activity_group_edit_tabs)

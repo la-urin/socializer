@@ -11,12 +11,14 @@ import kotlinx.coroutines.launch
 
 class MessageViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: MessageRepository
-    val messages: LiveData<List<Message>>
 
     init {
         val dao = AppDatabase.getDatabase(application).messageDao()
         repository = MessageRepository(dao)
-        messages = repository.messages
+    }
+
+    fun getForGroup(groupId: Int): LiveData<List<Message>> {
+        return repository.getForGroup(groupId)
     }
 
     fun insert(message: Message) = viewModelScope.launch {
