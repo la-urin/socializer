@@ -66,6 +66,7 @@ class MainActivity() : AppCompatActivity() {
             startActivity(intent)
         }
 
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -73,6 +74,7 @@ class MainActivity() : AppCompatActivity() {
         groupViewModel.groups.observe(this, Observer { groups ->
             groups?.let { adapter.setGroups(it) }
         })
+        groupViewModel.sortBy(groupViewModel.currentSort)
 
         recyclerView.addItemDecoration(DividerItemDecoration(applicationContext,DividerItemDecoration.VERTICAL))
     }

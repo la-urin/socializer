@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.socializer.R
 import com.example.socializer.models.Group
 
-
 class GroupAdapter(context: Context, private val onItemClicked: (Group) -> Unit) :
     RecyclerView.Adapter<GroupAdapter.GroupViewHolder>() {
 
