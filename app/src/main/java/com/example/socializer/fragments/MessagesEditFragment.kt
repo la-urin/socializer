@@ -42,20 +42,27 @@ class MessagesEditFragment : Fragment() {
         val fragment = inflater.inflate(R.layout.messages_edit_fragment, container, false)
 
         setupAddMessageDialog(fragment)
-
-        val adapter = context?.let { MessageAdapter(it, {}, {}) }
-
-        recyclerView = fragment.findViewById(R.id.messages_edit_recycler_view)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(context)
-
-        viewModel.getForGroup(groupId).observe(viewLifecycleOwner)
-        { messages -> messages?.let { adapter?.setMessages(messages) } }
+        setupMessageRecyclerView(fragment)
 
         return fragment
     }
 
-    private fun setupAddMessageDialog(fragment: View){
+    private fun setupMessageRecyclerView(fragment: View) {
+        val adapter = context?.let {
+            MessageAdapter(it,
+                { message -> setupEditMessageDialog(message) },
+                { message -> viewModel.delete(message) })
+        }
+
+        viewModel.getForGroup(groupId).observe(viewLifecycleOwner)
+        { messages -> messages?.let { adapter?.setMessages(messages) } }
+
+        recyclerView = fragment.findViewById(R.id.messages_edit_recycler_view)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(context)
+    }
+
+    private fun setupAddMessageDialog(fragment: View) {
         val button = fragment.findViewById<FloatingActionButton>(R.id.messages_edit_fragment_add)
         val inflater = LayoutInflater.from(context)
         val builder = AlertDialog.Builder(context)
@@ -71,6 +78,22 @@ class MessagesEditFragment : Fragment() {
                     Toast.makeText(context, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
                 }.setNegativeButton(R.string.cancel, null).create().show()
         }
+    }
+
+    private fun setupEditMessageDialog(message: Message) {
+        val inflater = LayoutInflater.from(context)
+        val builder = AlertDialog.Builder(context)
+
+        val popupView = inflater.inflate(R.layout.message_edit_dialog, null)
+        val userInput: EditText = popupView.findViewById(R.id.message_edit_dialog_edit_text)
+
+        userInput.setText(message.text)
+        builder.setView(popupView).setCancelable(true)
+            .setPositiveButton(R.string.ok) { _, _ ->
+                message.text = userInput.text.toString()
+                viewModel.update(message)
+                Toast.makeText(context, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
+            }.setNegativeButton(R.string.cancel, null).create().show()
     }
 
     companion object {

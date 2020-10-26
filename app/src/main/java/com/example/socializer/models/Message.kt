@@ -9,7 +9,7 @@ import java.lang.reflect.Constructor
 data class Message(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "group_id") val groupId: Int,
-    @ColumnInfo val text: String
+    @ColumnInfo var text: String
 ) {
     constructor(groupId: Int, text: String) : this(0, groupId, text)
 }
