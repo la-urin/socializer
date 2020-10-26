@@ -42,6 +42,9 @@ class GroupEditActivity : AppCompatActivity() {
         contactsEditFragment.arguments = bundle
         groupEditFragment.arguments = bundle
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
         fragmentManager.beginTransaction()
             .add(R.id.activity_group_edit_fragment, currentFragment)
             .commit()
@@ -107,6 +110,10 @@ class GroupEditActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
 
     private fun setActiveView(tab: TabLayout.Tab?) {
         currentFragment = when (tab?.position) {
