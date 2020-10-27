@@ -1,13 +1,17 @@
 package com.example.socializer.fragments
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +23,7 @@ import com.example.socializer.viewmodels.ContactViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 private const val ARG_GROUP_ID = "GroupId"
+private const val CALLBACK_CODE = 1
 const val PICK_CONTACT = 2015
 
 class ContactsEditFragment : Fragment() {
@@ -63,15 +68,6 @@ class ContactsEditFragment : Fragment() {
         return fragment
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    private fun pickExternalContact() {
-        val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
-        startActivityForResult(intent, PICK_CONTACT)
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_CONTACT && resultCode == RESULT_OK) {
@@ -99,6 +95,8 @@ class ContactsEditFragment : Fragment() {
                 } else {
                     viewModel.insert(Contact(0, groupId, contactId, lookupKey, displayName))
                 }
+            } else {
+                showUnableToAddContactToast()
             }
         }
     }
@@ -108,8 +106,28 @@ class ContactsEditFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        pickExternalContact()
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            pickExternalContact()
+        } else {
+            showUnableToAddContactToast()
+        }
+    }
+
+    private fun pickExternalContact() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(Manifest.permission.READ_CONTACTS), CALLBACK_CODE)
+        } else {
+            val intent = Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI)
+            startActivityForResult(intent, PICK_CONTACT)
+        }
+    }
+
+    private fun showUnableToAddContactToast() {
+        Toast.makeText(
+                requireContext(),
+                R.string.unableToAddContact,
+                Toast.LENGTH_LONG
+        ).show()
     }
 
     companion object {
