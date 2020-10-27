@@ -4,8 +4,12 @@ import androidx.lifecycle.LiveData
 import com.example.socializer.models.database.MessageDao
 
 class MessageRepository(private val dao: MessageDao) {
-    fun getForGroup(groupId: Int): LiveData<List<Message>>{
+    fun getForGroup(groupId: Int): List<Message> {
         return dao.getForGroup(groupId)
+    }
+
+    fun getForGroupLive(groupId: Int): LiveData<List<Message>>{
+        return dao.getForGroupLive(groupId)
     }
 
     fun insert(message: Message){

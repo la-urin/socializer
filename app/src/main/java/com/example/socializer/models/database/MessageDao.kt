@@ -9,7 +9,10 @@ import com.example.socializer.models.Message
 @Dao
 interface MessageDao {
     @Query("SELECT * FROM message WHERE group_id = :groupId")
-    fun getForGroup(groupId: Int): LiveData<List<Message>>
+    fun getForGroup(groupId: Int): List<Message>
+
+    @Query("SELECT * FROM message WHERE group_id = :groupId")
+    fun getForGroupLive(groupId: Int): LiveData<List<Message>>
 
     @Insert
     fun insert(message: Message)

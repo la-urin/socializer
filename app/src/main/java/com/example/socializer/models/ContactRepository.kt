@@ -4,7 +4,11 @@ import androidx.lifecycle.LiveData
 import com.example.socializer.models.database.ContactDao
 
 class ContactRepository(private val dao: ContactDao) {
-    fun getForGroup(groupId: Int): LiveData<List<Contact>> {
+    fun getForGroupLive(groupId: Int): LiveData<List<Contact>> {
+        return dao.getForGroupLive(groupId)
+    }
+
+    fun getForGroup(groupId: Int): List<Contact> {
         return dao.getForGroup(groupId)
     }
 

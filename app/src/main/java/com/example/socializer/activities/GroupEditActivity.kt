@@ -91,7 +91,7 @@ class GroupEditActivity : AppCompatActivity() {
 
         var alertDialog: AlertDialog = alertDialogBuilder.create();
 
-        alertDialog.show();
+        alertDialog.show()
 
     }
 

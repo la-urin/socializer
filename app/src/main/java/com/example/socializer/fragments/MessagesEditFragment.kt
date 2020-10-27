@@ -3,15 +3,12 @@ package com.example.socializer.fragments
 import android.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.text.Editable
-import android.text.Layout
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socializer.R
@@ -38,7 +35,6 @@ class MessagesEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val fragment = inflater.inflate(R.layout.messages_edit_fragment, container, false)
 
         setupAddMessageDialog(fragment)
@@ -54,7 +50,7 @@ class MessagesEditFragment : Fragment() {
                 { message -> viewModel.delete(message) })
         }
 
-        viewModel.getForGroup(groupId).observe(viewLifecycleOwner)
+        viewModel.getForGroupLive(groupId).observe(viewLifecycleOwner)
         { messages -> messages?.let { adapter?.setMessages(messages) } }
 
         recyclerView = fragment.findViewById(R.id.messages_edit_recycler_view)
