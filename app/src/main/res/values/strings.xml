@@ -26,4 +26,8 @@
 
     <string name="send_broadcast_message">Send Broadcast Message</string>
     <string name="edit_modal">Edit</string>
+    <string name="messageNotSent">Please add contacts and messages first!</string>
+    <string name="messageSent">Message successfully sent!</string>
+    <string name="messageNotSentPermission">Make sure to accept the permissions!</string>
+    <string name="showMessages">SHOW MESSAGES</string>
 </resources>

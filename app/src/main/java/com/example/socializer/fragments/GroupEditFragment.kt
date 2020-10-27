@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -23,6 +24,9 @@ import com.google.android.material.snackbar.Snackbar
 
 
 private const val ARG_GROUP_ID = "GroupId"
+private const val BROADCAST_PERMISSION_ID = 99
+private const val RANDOM_CALL_PERMISSION_ID = 98
+
 
 class GroupEditFragment : Fragment() {
     private var groupId: Int? = null
@@ -55,26 +59,16 @@ class GroupEditFragment : Fragment() {
         return fragment
     }
 
-    override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
-    ) {
-        if (grantResults.all { result -> result == PackageManager.PERMISSION_GRANTED }) {
-            sendBroadCastMessage()
-        }
-    }
-
     companion object {
+
         @JvmStatic
         fun newInstance(groupId: Int) = GroupEditFragment().apply {
             arguments = Bundle().apply { putInt(ARG_GROUP_ID, groupId) }
         }
     }
-
     private fun sendBroadCastMessage() {
         if (!checkPermissions()) {
-            requestPermission()
+            requestPermission(BROADCAST_PERMISSION_ID)
         } else {
             val contacts = contactViewModel.getForGroup(groupId!!)
             var numbers = mutableSetOf<String>()
@@ -97,29 +91,43 @@ class GroupEditFragment : Fragment() {
                         smsManager.sendTextMessage(number, null, randomMessage, null, null)
                     }
 
-                    val snackbar: Snackbar = Snackbar.make(fragment, "SMS sent!", Snackbar.LENGTH_LONG);
-                    snackbar.setAction("SHOW MESSAGES", View.OnClickListener() {
+                    val snackbar: Snackbar = Snackbar.make(fragment, R.string.messageSent, Snackbar.LENGTH_LONG);
+                    snackbar.setAction(R.string.showMessages, View.OnClickListener() {
                         val intent = Intent(Intent.ACTION_MAIN)
                         intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
                         startActivity(intent)
                     }).show()
                 } catch (e: Exception) {
-                    Snackbar.make(fragment, "SMS sending failed", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(fragment, R.string.messageNotSent, Snackbar.LENGTH_LONG).show();
                     e.printStackTrace()
                 }
             } else {
-                Snackbar.make(fragment, "Please make sure to add contacts and messages first", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(fragment, R.string.messageNotSent, Snackbar.LENGTH_LONG).show();
             }
         }
     }
 
-    private fun requestPermission() {
+    private fun requestPermission(requestCode: Int) {
         val permissions = arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_CONTACTS)
-        requestPermissions(permissions, 0)
+        requestPermissions(permissions, requestCode)
     }
 
     private fun checkPermissions(): Boolean {
         return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
+    ) {
+        if (requestCode == BROADCAST_PERMISSION_ID && grantResults.all { result -> result == PackageManager.PERMISSION_GRANTED } ) {
+            sendBroadCastMessage()
+        } else if (requestCode == RANDOM_CALL_PERMISSION_ID && grantResults.all { result -> result == PackageManager.PERMISSION_GRANTED } ) {
+            //call Function
+        } else {
+            Toast.makeText(requireContext(), R.string.messageNotSentPermission, Toast.LENGTH_LONG).show()
+        }
     }
 }
