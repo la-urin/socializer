@@ -128,16 +128,20 @@ class GroupEditFragment : Fragment() {
     }
 
     override fun onRequestPermissionsResult(
-            requestCode: Int,
-            permissions: Array<out String>,
-            grantResults: IntArray
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
     ) {
-        if (requestCode == BROADCAST_PERMISSION_ID && grantResults.all { result -> result == PackageManager.PERMISSION_GRANTED } ) {
-            sendBroadCastMessage()
-        } else if (requestCode == RANDOM_CALL_PERMISSION_ID && grantResults.all { result -> result == PackageManager.PERMISSION_GRANTED } ) {
-            //call Function
+
+        if (grantResults.all { result -> result == PackageManager.PERMISSION_GRANTED }) {
+            when (requestCode) {
+                BROADCAST_PERMISSION_ID -> sendBroadCastMessage()
+                RANDOM_CALL_PERMISSION_ID -> print("todo") // random call todo
+                else -> print("unsupported request code $requestCode")
+            }
         } else {
-            Toast.makeText(requireContext(), R.string.messageNotSentPermission, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), R.string.messageNotSentPermission, Toast.LENGTH_LONG)
+                .show()
         }
     }
 }
