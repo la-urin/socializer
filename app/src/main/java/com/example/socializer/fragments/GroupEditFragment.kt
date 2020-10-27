@@ -39,8 +39,6 @@ class GroupEditFragment : Fragment() {
         groupViewModel = ViewModelProvider(this)[GroupViewModel::class.java]
         contactViewModel = ViewModelProvider(this)[ContactViewModel::class.java]
         messageViewModel = ViewModelProvider(this)[MessageViewModel::class.java]
-
-        requestPermission()
     }
 
     override fun onCreateView(
@@ -51,27 +49,43 @@ class GroupEditFragment : Fragment() {
 
         broadcastButton = fragment.findViewById(R.id.message_broadcast_button)
         broadcastButton.setOnClickListener {
+            sendBroadCastMessage()
+        }
+
+        return fragment
+    }
+
+    override fun onRequestPermissionsResult(
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
+    ) {
+        if (grantResults.all { result -> result == PackageManager.PERMISSION_GRANTED }) {
+            sendBroadCastMessage()
+        }
+    }
+
+    companion object {
+        @JvmStatic
+        fun newInstance(groupId: Int) = GroupEditFragment().apply {
+            arguments = Bundle().apply { putInt(ARG_GROUP_ID, groupId) }
+        }
+    }
+
+    private fun sendBroadCastMessage() {
+        if (!checkPermissions()) {
+            requestPermission()
+        } else {
             val contacts = contactViewModel.getForGroup(groupId!!)
-            var numbers = mutableListOf<String>()
+            var numbers = mutableSetOf<String>()
             val messages = messageViewModel.getForGroup(groupId!!)
 
             if (contacts.isNotEmpty() && messages.isNotEmpty()) {
                 for (contact in contacts) {
-                    val lookupUri: Uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, contact.lookupKey)
-                    val res: Uri = ContactsContract.Contacts.lookupContact(context?.contentResolver, lookupUri)
-
-                    val cursor = requireActivity().contentResolver.query(res, null, null, null, null)
-                    //val contactId: String? = cursor?.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))
-
-                    if (cursor?.moveToFirst() == true) {
-                        val hasPhoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))
-
-                        if (Integer.valueOf(hasPhoneNumber) == 1) {
-                            val numCursor = requireActivity().contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-                            while (numCursor?.moveToNext()!!) {
-                                numbers.add(numCursor.getString(numCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))
-                            }
-                        }
+                    val selection = "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID}=${contact.contactId}"
+                    val numCursor = requireActivity().contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, selection, null, null);
+                    if (numCursor?.moveToFirst() == true) {
+                        numbers.add(numCursor.getString(numCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))
                     }
                 }
 
@@ -96,39 +110,16 @@ class GroupEditFragment : Fragment() {
             } else {
                 Snackbar.make(fragment, "Please make sure to add contacts and messages first", Snackbar.LENGTH_LONG).show();
             }
-
-        }
-
-        return fragment
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(groupId: Int) = GroupEditFragment().apply {
-            arguments = Bundle().apply { putInt(ARG_GROUP_ID, groupId) }
         }
     }
 
     private fun requestPermission() {
-        requestPermission(Manifest.permission.SEND_SMS, 0)
-        requestPermission(Manifest.permission.READ_CONTACTS, 0)
+        val permissions = arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_CONTACTS)
+        requestPermissions(permissions, 0)
     }
 
-    private fun checkPermission(permission: String): Boolean {
-        return context?.let { ContextCompat.checkSelfPermission(it, permission) } == PackageManager.PERMISSION_GRANTED
-    }
-
-    private fun checkPermission(grantResults: IntArray): Boolean {
-        return if (grantResults.isEmpty()) {
-            false
-        } else {
-            grantResults[0] == PackageManager.PERMISSION_GRANTED
-        }
-    }
-
-    @SuppressLint("NewApi")
-    private fun requestPermission(permission: String, requestCode: Int) {
-        if (checkPermission(permission)) return
-        requestPermissions(arrayOf(permission), requestCode)
+    private fun checkPermissions(): Boolean {
+        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
     }
 }
