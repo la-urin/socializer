@@ -33,7 +33,7 @@ class GroupEditActivity : AppCompatActivity() {
         setContentView(R.layout.activity_group_edit)
 
         val viewModel = ViewModelProvider(this)[GroupViewModel::class.java]
-        val groupId: Int = intent.getIntExtra("GroupId", 0)
+        val groupId: Int = intent.getIntExtra(ARG_GROUP_ID, 0)
         val group = viewModel.getById(groupId)
         title = group.name
 
@@ -65,7 +65,7 @@ class GroupEditActivity : AppCompatActivity() {
     }
 
     private fun setupEditGroupDialog() {
-        var groupId = intent.getIntExtra("GroupId", 0)
+        var groupId = intent.getIntExtra(ARG_GROUP_ID, 0)
         val groupViewModel = ViewModelProvider(this).get(GroupViewModel::class.java)
         val group = groupViewModel.getById(groupId)
         val li: LayoutInflater = LayoutInflater.from(this)
