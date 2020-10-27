@@ -16,8 +16,8 @@ class GroupViewModel(application: Application) : AndroidViewModel(application) {
     var groups: LiveData<List<Group>>
 
     init {
-        val dao = AppDatabase.getDatabase(application).groupDao()
-        repository = GroupRepository(dao)
+        val database = AppDatabase.getDatabase(application)
+        repository = GroupRepository(database.groupDao(), database.messageDao(), database.contactDao())
         groups = currentSort.switchMap { value ->
             if (value == Sort.ALPHA_DES) {
                 return@switchMap repository.getGroupsSortedByAlphaDesc()

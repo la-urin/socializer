@@ -1,9 +1,11 @@
 package com.example.socializer.models
 
 import androidx.lifecycle.LiveData
+import com.example.socializer.models.database.ContactDao
 import com.example.socializer.models.database.GroupDao
+import com.example.socializer.models.database.MessageDao
 
-class GroupRepository(private val dao: GroupDao) {
+class GroupRepository(private val dao: GroupDao, private val messageDao: MessageDao, private val contactDao: ContactDao) {
     fun insert(group: Group) {
         dao.insert(group)
     }
@@ -14,6 +16,8 @@ class GroupRepository(private val dao: GroupDao) {
 
     fun delete(group: Group){
         dao.delete(group)
+        messageDao.deleteForGroup(group.id)
+        contactDao.deleteForGroup(group.id)
     }
 
     fun getById(id: Int): Group {
