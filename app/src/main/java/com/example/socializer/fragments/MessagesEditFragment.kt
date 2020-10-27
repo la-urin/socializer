@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,7 +47,7 @@ class MessagesEditFragment : Fragment() {
     private fun setupMessageRecyclerView(fragment: View) {
         val adapter = context?.let {
             MessageAdapter(it,
-                { message -> setupEditMessageDialog(message) },
+                { message -> openEditMessageDialog(message) { message -> updateMessage(message) } },
                 { message -> viewModel.delete(message) })
         }
 
@@ -60,36 +61,58 @@ class MessagesEditFragment : Fragment() {
 
     private fun setupAddMessageDialog(fragment: View) {
         val button = fragment.findViewById<FloatingActionButton>(R.id.messages_edit_fragment_add)
-        val inflater = LayoutInflater.from(context)
-        val builder = AlertDialog.Builder(context)
-
         button.setOnClickListener {
-            val popupView = inflater.inflate(R.layout.message_edit_dialog, null)
-            val userInput: EditText = popupView.findViewById(R.id.message_edit_dialog_edit_text)
-
-            builder.setView(popupView).setCancelable(true)
-                .setPositiveButton(R.string.ok) { _, _ ->
-                    val message = Message(groupId, userInput.text.toString())
-                    viewModel.insert(message)
-                    Toast.makeText(context, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
-                }.setNegativeButton(R.string.cancel, null).create().show()
+            openEditMessageDialog(null) { message ->
+                insertMessage(message)
+            }
         }
     }
 
-    private fun setupEditMessageDialog(message: Message) {
+    private fun openEditMessageDialog(message: Message?, onSaveMessage: (message: Message) -> Unit) {
         val inflater = LayoutInflater.from(context)
         val builder = AlertDialog.Builder(context)
 
         val popupView = inflater.inflate(R.layout.message_edit_dialog, null)
-        val userInput: EditText = popupView.findViewById(R.id.message_edit_dialog_edit_text)
+        val messageInput: EditText = popupView.findViewById(R.id.message_edit_dialog_edit_text)
 
-        userInput.setText(message.text)
-        builder.setView(popupView).setCancelable(true)
-            .setPositiveButton(R.string.ok) { _, _ ->
-                message.text = userInput.text.toString()
-                viewModel.update(message)
-                Toast.makeText(context, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
-            }.setNegativeButton(R.string.cancel, null).create().show()
+        if (message != null) {
+            messageInput.setText(message.text)
+        }
+
+        val alertDialog: AlertDialog = builder.setView(popupView).setCancelable(true)
+            .setPositiveButton(R.string.ok, null)
+            .setNegativeButton(R.string.cancel, null)
+            .create()
+
+        alertDialog.setOnShowListener {
+            val button: Button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            button.setOnClickListener {
+                val messageText = messageInput.text.toString()
+                if (messageText.isNotEmpty()) {
+                    if (message == null) {
+                        onSaveMessage(Message(groupId, messageText))
+                    } else {
+                        message.text = messageText
+                        onSaveMessage(message)
+                    }
+                    alertDialog.dismiss()
+                } else {
+                    messageInput.error = getString(R.string.messageTextRequired)
+                }
+            }
+        }
+
+        alertDialog.show()
+    }
+
+    private fun insertMessage(message: Message) {
+        viewModel.insert(message)
+        Toast.makeText(context, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun updateMessage(message: Message) {
+        viewModel.update(message)
+        Toast.makeText(context, R.string.saved_successfully, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
