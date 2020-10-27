@@ -22,4 +22,7 @@ interface MessageDao {
 
     @Delete
     fun delete(message: Message)
+
+    @Query("DELETE FROM message WHERE group_id = :groupId")
+    fun deleteForGroup(groupId: Int)
 }

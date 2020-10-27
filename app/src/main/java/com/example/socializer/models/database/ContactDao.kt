@@ -33,4 +33,7 @@ interface ContactDao {
 
     @Delete
     fun delete(contact: Contact)
+
+    @Query("DELETE FROM contact WHERE group_id = :groupId")
+    fun deleteForGroup(groupId: Int)
 }
