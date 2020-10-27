@@ -2,11 +2,13 @@ package com.example.socializer.activities
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,15 +29,16 @@ class GroupEditActivity : AppCompatActivity() {
     private lateinit var contactsEditFragment: ContactsEditFragment
     private lateinit var groupEditFragment: GroupEditFragment
     private lateinit var currentFragment: Fragment
+    private lateinit var groupViewModel: GroupViewModel
     private val fragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_group_edit)
 
-        val viewModel = ViewModelProvider(this)[GroupViewModel::class.java]
+        groupViewModel = ViewModelProvider(this)[GroupViewModel::class.java]
         val groupId: Int = intent.getIntExtra(ARG_GROUP_ID, 0)
-        val group = viewModel.getById(groupId)
+        val group = groupViewModel.getById(groupId)
         title = group.name
 
         messagesEditFragment = MessagesEditFragment.newInstance(group.id)
@@ -67,7 +70,6 @@ class GroupEditActivity : AppCompatActivity() {
 
     private fun setupEditGroupDialog() {
         var groupId = intent.getIntExtra(ARG_GROUP_ID, 0)
-        val groupViewModel = ViewModelProvider(this).get(GroupViewModel::class.java)
         val group = groupViewModel.getById(groupId)
         val li: LayoutInflater = LayoutInflater.from(this)
         val promptsView: View = li.inflate(R.layout.alert_dialog_groupname, null)
@@ -79,16 +81,27 @@ class GroupEditActivity : AppCompatActivity() {
         alertDialogBuilder.setView(promptsView)
         alertDialogBuilder
             .setCancelable(false)
-            .setPositiveButton(R.string.ok) { _, _ ->
-                group.name = userInput.text.toString()
-                groupViewModel.update(group)
-                title = group.name
-                Toast.makeText(applicationContext, R.string.saved_successfully, Toast.LENGTH_SHORT)
-                    .show()
-            }
-            .setNegativeButton(R.string.cancel) { _, _ -> }
+            .setPositiveButton(R.string.ok, null)
+            .setNegativeButton(R.string.cancel, null)
 
         var alertDialog: AlertDialog = alertDialogBuilder.create();
+
+        alertDialog.setOnShowListener {
+            val button: Button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            button.setOnClickListener {
+                val groupName = userInput.text.toString()
+                if (groupName.isNotEmpty()) {
+                    group.name = groupName
+                    groupViewModel.update(group)
+                    title = group.name
+                    Toast.makeText(applicationContext, R.string.saved_successfully, Toast.LENGTH_SHORT)
+                            .show()
+                    alertDialog.dismiss()
+                } else {
+                    userInput.error = getString(R.string.groupNameRequired)
+                }
+            }
+        }
 
         alertDialog.show()
 

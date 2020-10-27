@@ -1,6 +1,7 @@
 package com.example.socializer.activities
 
 import android.app.AlertDialog
+import android.content.DialogInterface.OnShowListener
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,8 +9,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -77,7 +78,7 @@ class MainActivity() : AppCompatActivity() {
             groups?.let { adapter.setGroups(it) }
         })
 
-        recyclerView.addItemDecoration(DividerItemDecoration(applicationContext,DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL))
     }
 
     private fun setupAddGroupDialog() {
@@ -91,21 +92,33 @@ class MainActivity() : AppCompatActivity() {
             alertDialogBuilder.setView(promptsView)
             alertDialogBuilder
                     .setCancelable(false)
-                    .setPositiveButton(R.string.ok) { _, _ ->
-                        insertGroup(userInput.text.toString())
-                    }
+                    .setPositiveButton(R.string.ok, null)
                     .setNegativeButton(R.string.cancel) { _, _ ->
                         Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT).show()
                     }
 
             var alertDialog: AlertDialog = alertDialogBuilder.create();
 
+            alertDialog.setOnShowListener(OnShowListener {
+                val button: Button = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                button.setOnClickListener(View.OnClickListener {
+                    val groupName = userInput.text.toString()
+                    if (groupName.isNotEmpty()) {
+                        insertGroup(groupName)
+                        alertDialog.dismiss()
+                    } else {
+                        userInput.error = getString(R.string.groupNameRequired)
+                    }
+                })
+            })
+
             alertDialog.show();
 
-            userInput.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
+            userInput.setOnEditorActionListener { view, actionId, _ ->
+                val groupName = view.text.toString()
+                if (groupName.isNotEmpty() && actionId == EditorInfo.IME_ACTION_DONE) {
                     alertDialog.dismiss()
-                    insertGroup(userInput.text.toString())
+                    insertGroup(groupName.toString())
                     return@setOnEditorActionListener true;
                 }
 
