@@ -1,43 +1,34 @@
 <resources>
-    <string name="app_name">Socializer</string>
+    <string name="app_name" translatable="false">Socializer</string>
 
     <string name="messages">Messages</string>
     <string name="contacts">Contacts</string>
     <string name="groups">Groups</string>
-    <string name="group">Group</string>
     <string name="groupNameRequired">Please provide a name for the group</string>
     <string name="actions">Actions</string>
 
     <string name="create_new_group">Group name</string>
     <string name="create_or_edit_message">Message</string>
     <string name="messageTextRequired">Please provide a text for the message</string>
-    <string name="drunk_mode">Activate Drunkmode</string>
 
-    <string name="pickContact">Pick Contact</string>
     <string name="contactAlreadyAdded">Contact has already been added</string>
     <string name="unableToAddContact">Unable to add contact</string>
-    <string name="unableToMakeRandomCall">Unable to make random call</string>
-    <string name="unableToBroadCastRandomMessage">Unable to broadcast random message</string>
 
-    <!-- -->
     <string name="saved_successfully">Saved!</string>
-    <string name="back">Back</string>
-    <string name="save">Save</string>
-
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
-
-    <string name="groups_fab_sort">Sort</string>
 
     <string name="send_broadcast_message">Send Random Message</string>
     <string name="edit_modal">Edit</string>
     <string name="messageNotSent">Please add contacts and messages first!</string>
     <string name="messageSent">Message successfully sent!</string>
-    <string name="showMessages">SHOW MESSAGES</string>
+    <string name="showMessages">Show Messages</string>
     <string name="deleted_successfully">Deleted successfully!</string>
     <string name="delete_group">Delete Group?</string>
     <string name="yes">YES</string>
     <string name="delete_modal">Delete</string>
-    <string name="make_random_call">MAKE RANDOM CALL</string>
-    <string name="call_not_made">Calling failed!</string>
+    <string name="make_random_call">Make Random Call</string>
+    <string name="noContactsAvailable">No contacts available</string>
+    <string name="unableToMakeRandomCall">Unable to make random call</string>
+    <string name="unableToBroadCastRandomMessage">Unable to broadcast random message</string>
 </resources>

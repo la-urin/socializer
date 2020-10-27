@@ -28,7 +28,7 @@ class MainActivity() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        title = "Socializer - Groups"
+        title = "${getString(R.string.app_name)} - ${getString(R.string.groups)}"
 
         setupGroupRecyclerView()
         setupAddGroupDialog()

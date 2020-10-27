@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="messages">Nachrichten</string>
+    <string name="contacts">Kontakte</string>
+    <string name="groups">Gruppen</string>
+    <string name="groupNameRequired">Bitte geben Sie einen Namen für die Gruppe an</string>
+    <string name="actions">Aktionen</string>
+    <string name="create_new_group">Gruppenname</string>
+    <string name="create_or_edit_message">Nachricht</string>
+    <string name="messageTextRequired">Bitte geben Sie einen Text für die Nachricht an</string>
+    <string name="contactAlreadyAdded">Kontakt wurde bereits hinzugefügt</string>
+    <string name="unableToAddContact">Kontakt konnte nicht hinzugefügt werden</string>
+    <string name="saved_successfully">Gespeichert!</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="ok">Ok</string>
+    <string name="send_broadcast_message">Zufällige Nachricht senden</string>
+    <string name="edit_modal">Editieren</string>
+    <string name="messageNotSent">Bitte fügen Sie zuerst Kontakte und Nachrichten hinzu!</string>
+    <string name="messageSent">Nachricht erfolgreich gesendet!</string>
+    <string name="showMessages">Nachrichten anzeigen</string>
+    <string name="deleted_successfully">Erfolgreich gelöscht!</string>
+    <string name="delete_group">Gruppe löschen?</string>
+    <string name="yes">Ja</string>
+    <string name="delete_modal">Löschen</string>
+    <string name="make_random_call">Zufälligen Anruf tätigen</string>
+    <string name="noContactsAvailable">Keine Kontakte verfügbar</string>
+    <string name="unableToMakeRandomCall">Zufälilger Anruf konnte nicht getätigt werden</string>
+    <string name="unableToBroadCastRandomMessage">Zufällige Nachricht konnte nicht versendet werden</string>
+</resources>

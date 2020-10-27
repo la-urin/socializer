@@ -131,7 +131,7 @@ class GroupEditFragment : Fragment() {
                 intent.data = Uri.parse(uri)
                 startActivity(intent)
             } else {
-                Snackbar.make(fragment, R.string.call_not_made, Snackbar.LENGTH_LONG).show();
+                Snackbar.make(fragment, R.string.noContactsAvailable, Snackbar.LENGTH_LONG).show();
             }
         }
     }
