@@ -2,6 +2,7 @@ package com.example.socializer.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -11,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -53,14 +53,16 @@ class GroupEditFragment : Fragment() {
         broadcastButton.setOnClickListener {
             val contacts = contactViewModel.getForGroup(groupId!!)
             var numbers = mutableListOf<String>()
+            val messages = messageViewModel.getForGroup(groupId!!)
 
-            if (contacts.isNotEmpty()) {
-
+            if (contacts.isNotEmpty() && messages.isNotEmpty()) {
                 for (contact in contacts) {
                     val lookupUri: Uri = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_LOOKUP_URI, contact.lookupKey)
                     val res: Uri = ContactsContract.Contacts.lookupContact(context?.contentResolver, lookupUri)
 
                     val cursor = requireActivity().contentResolver.query(res, null, null, null, null)
+                    //val contactId: String? = cursor?.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID))
+
                     if (cursor?.moveToFirst() == true) {
                         val hasPhoneNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))
 
@@ -72,13 +74,7 @@ class GroupEditFragment : Fragment() {
                         }
                     }
                 }
-            } else {
-                Snackbar.make(fragment, "Please make sure to add a contact first.", Snackbar.LENGTH_LONG).show();
-            }
 
-            val messages = messageViewModel.getForGroup(groupId!!)
-
-            if (messages.isNotEmpty()) {
                 var randomMessage: String = messages.random().text
 
                 try {
@@ -86,14 +82,21 @@ class GroupEditFragment : Fragment() {
                     for (number in numbers) {
                         smsManager.sendTextMessage(number, null, randomMessage, null, null)
                     }
-                    Toast.makeText(context, "SMS Sent!", Toast.LENGTH_LONG).show()
+
+                    val snackbar: Snackbar = Snackbar.make(fragment, "SMS sent!", Snackbar.LENGTH_LONG);
+                    snackbar.setAction("SHOW MESSAGES", View.OnClickListener() {
+                        val intent = Intent(Intent.ACTION_MAIN)
+                        intent.addCategory(Intent.CATEGORY_APP_MESSAGING)
+                        startActivity(intent)
+                    }).show()
                 } catch (e: Exception) {
-                    Toast.makeText(context, "SMS failed, please try again later!", Toast.LENGTH_LONG).show()
+                    Snackbar.make(fragment, "SMS sending failed", Snackbar.LENGTH_LONG).show();
                     e.printStackTrace()
                 }
             } else {
-                Snackbar.make(fragment, "Please make sure to add a contact first.", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(fragment, "Please make sure to add contacts and messages first", Snackbar.LENGTH_LONG).show();
             }
+
         }
 
         return fragment
