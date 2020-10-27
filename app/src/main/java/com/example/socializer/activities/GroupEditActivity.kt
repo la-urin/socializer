@@ -1,8 +1,6 @@
 package com.example.socializer.activities
 
-import android.app.Activity
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -18,7 +16,6 @@ import com.example.socializer.R
 import com.example.socializer.fragments.ContactsEditFragment
 import com.example.socializer.fragments.GroupEditFragment
 import com.example.socializer.fragments.MessagesEditFragment
-import com.example.socializer.models.Group
 import com.example.socializer.viewmodels.GroupViewModel
 import com.google.android.material.tabs.TabLayout
 

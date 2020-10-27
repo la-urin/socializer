@@ -6,7 +6,6 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.socializer.models.Contact
-import com.example.socializer.models.Group
 
 @Dao
 interface ContactDao {

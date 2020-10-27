@@ -1,7 +1,6 @@
 package com.example.socializer.models.database
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.example.socializer.models.Group
 

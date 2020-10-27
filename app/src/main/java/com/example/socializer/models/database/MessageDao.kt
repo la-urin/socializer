@@ -2,8 +2,6 @@ package com.example.socializer.models.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.socializer.models.Contact
-import com.example.socializer.models.Group
 import com.example.socializer.models.Message
 
 @Dao

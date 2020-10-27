@@ -3,7 +3,6 @@ package com.example.socializer.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.lang.reflect.Constructor
 
 @Entity
 data class Message(
