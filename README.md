@@ -17,7 +17,7 @@ Strukturiere ganz einfach deine Kontakte in Gruppen und definiere vorgefertigte 
 #### Funktion: Zufälliger Anruf
 Rufe mit einem Klick einer zufälligen Person aus einer Kontaktgruppe an.
 #### Funktion: Nachrichten broadcast
-Versende vorgefertigte Nachrichten an deine Kontaktgruppen.
+Versende eine zufällig ausgewählte Nachrichten an deine Kontaktgruppe.
 #### Funktion: Drunkmode
 Grosse Buttons, grelle Farben. Erhöhe die Bedienbarkeit mit dem Drunkmode, falls du eigentlich wiedermal dein Smartphone nicht bedienen solltest.
 
