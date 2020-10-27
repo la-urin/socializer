@@ -30,4 +30,8 @@
     <string name="messageSent">Message successfully sent!</string>
     <string name="messageNotSentPermission">Make sure to accept the permissions!</string>
     <string name="showMessages">SHOW MESSAGES</string>
+    <string name="deleted_successfully">Deleted successfully!</string>
+    <string name="delete_group">Delete Group?</string>
+    <string name="yes">YES</string>
+    <string name="delete_modal">Delete</string>
 </resources>

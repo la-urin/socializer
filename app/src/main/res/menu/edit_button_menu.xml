@@ -8,4 +8,11 @@
         android:orderInCategory="100"
         android:icon="@drawable/ic_edit_white_24dp"
         android:title="@string/edit_modal" />
+
+    <item
+        android:id="@+id/action_delete_group"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="101"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="@string/delete_modal" />
 </menu>

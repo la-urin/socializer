@@ -1,5 +1,6 @@
 package com.example.socializer.activities
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -85,9 +86,7 @@ class GroupEditActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, R.string.saved_successfully, Toast.LENGTH_SHORT)
                     .show()
             }
-            .setNegativeButton(R.string.cancel) { _, _ ->
-                Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT).show()
-            }
+            .setNegativeButton(R.string.cancel) { _, _ -> }
 
         var alertDialog: AlertDialog = alertDialogBuilder.create();
 
@@ -104,6 +103,10 @@ class GroupEditActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.action_edit_name -> {
                 setupEditGroupDialog()
+                true
+            }
+            R.id.action_delete_group -> {
+                setupDeleteGroupDialog()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -124,5 +127,27 @@ class GroupEditActivity : AppCompatActivity() {
 
         fragmentManager.beginTransaction()
             .replace(R.id.activity_group_edit_fragment, currentFragment).commit()
+    }
+
+    private fun setupDeleteGroupDialog() {
+        var alertDialogBuilder: AlertDialog.Builder = AlertDialog.Builder(this)
+        val li: LayoutInflater = LayoutInflater.from(this)
+        val promptsView: View = li.inflate(R.layout.alert_dialog_delete_group, null)
+        var groupId = intent.getIntExtra(ARG_GROUP_ID, 0)
+        val groupViewModel = ViewModelProvider(this).get(GroupViewModel::class.java)
+        val group = groupViewModel.getById(groupId)
+
+        alertDialogBuilder.setView(promptsView)
+        alertDialogBuilder
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes) { _, _ ->
+                    groupViewModel.delete(group)
+                    finish()
+                }
+                .setNegativeButton(R.string.cancel) { _, _ -> }
+
+        var alertDialog: AlertDialog = alertDialogBuilder.create();
+
+        alertDialog.show()
     }
 }
