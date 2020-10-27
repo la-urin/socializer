@@ -1,6 +1,7 @@
 package com.example.socializer.fragments
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -15,6 +16,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.socializer.R
+import com.example.socializer.models.Contact
 import com.example.socializer.viewmodels.ContactViewModel
 import com.example.socializer.viewmodels.GroupViewModel
 import com.example.socializer.viewmodels.MessageViewModel
@@ -64,6 +66,7 @@ class GroupEditFragment : Fragment() {
             arguments = Bundle().apply { putInt(ARG_GROUP_ID, groupId) }
         }
     }
+
     private fun sendBroadCastMessage() {
         if (!checkPermissions()) {
             requestPermission(BROADCAST_PERMISSION_ID)
@@ -74,10 +77,9 @@ class GroupEditFragment : Fragment() {
 
             if (contacts.isNotEmpty() && messages.isNotEmpty()) {
                 for (contact in contacts) {
-                    val selection = "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID}=${contact.contactId}"
-                    val numCursor = requireActivity().contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, selection, null, null);
-                    if (numCursor?.moveToFirst() == true) {
-                        numbers.add(numCursor.getString(numCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER)))
+                    val number = getNumberFromContact(contact)
+                    if (number != null) {
+                        numbers.add(number)
                     }
                 }
 
@@ -86,7 +88,7 @@ class GroupEditFragment : Fragment() {
                 try {
                     val smsManager = SmsManager.getDefault()
                     for (number in numbers) {
-                        smsManager.sendTextMessage(number, null, randomMessage, null, null)
+                        //smsManager.sendTextMessage(number, null, randomMessage, null, null)
                     }
 
                     val snackbar: Snackbar = Snackbar.make(fragment, R.string.messageSent, Snackbar.LENGTH_LONG);
@@ -103,6 +105,16 @@ class GroupEditFragment : Fragment() {
                 Snackbar.make(fragment, R.string.messageNotSent, Snackbar.LENGTH_LONG).show();
             }
         }
+    }
+
+    @SuppressLint("Recycle")
+    private fun getNumberFromContact(contact: Contact): String? {
+        val selection = "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID}=${contact.contactId}"
+        val numCursor = requireActivity().contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, selection, null, null);
+        if (numCursor?.moveToFirst() == true) {
+            return numCursor.getString(numCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+        }
+        return null
     }
 
     private fun requestPermission(requestCode: Int) {
