@@ -171,15 +171,24 @@ class GroupEditFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        if (grantResults.all { result -> result == PackageManager.PERMISSION_GRANTED }) {
-            when (requestCode) {
-                BROADCAST_PERMISSION_ID -> sendBroadCastMessage()
-                RANDOM_CALL_PERMISSION_ID -> print("todo") // random call todo
-                else -> print("unsupported request code $requestCode")
+        val allGranted = grantResults.all { result -> result == PackageManager.PERMISSION_GRANTED }
+        when (requestCode) {
+            BROADCAST_PERMISSION_ID -> {
+                if (allGranted) {
+                    sendBroadCastMessage()
+                } else {
+                    Toast.makeText(requireContext(), R.string.unableToBroadCastRandomMessage, Toast.LENGTH_LONG)
+                            .show()
+                }
             }
-        } else {
-            Toast.makeText(requireContext(), R.string.messageNotSentPermission, Toast.LENGTH_LONG)
-                .show()
+            RANDOM_CALL_PERMISSION_ID -> {
+                if (allGranted) {
+                    makeRandomCall()
+                } else {
+                    Toast.makeText(requireContext(), R.string.unableToMakeRandomCall, Toast.LENGTH_LONG)
+                            .show()
+                }
+            }
         }
     }
 }
