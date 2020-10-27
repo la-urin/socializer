@@ -86,7 +86,7 @@ class ContactsEditFragment : Fragment() {
                     cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.LOOKUP_KEY))
                 val displayName =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                if (viewModel.contactAlreadyAdded(contactId)) {
+                if (viewModel.contactAlreadyAdded(groupId, contactId)) {
                     Toast.makeText(
                         requireContext(),
                         R.string.contactAlreadyAdded,

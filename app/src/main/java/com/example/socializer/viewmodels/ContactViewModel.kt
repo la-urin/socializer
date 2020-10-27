@@ -25,8 +25,8 @@ class ContactViewModel(application: Application) : AndroidViewModel(application)
         return repository.getForGroup(groupId);
     }
 
-    fun contactAlreadyAdded(externalContactId: Long): Boolean {
-        return repository.getByExternalContactId(externalContactId) != null
+    fun contactAlreadyAdded(groupId: Int, externalContactId: Long): Boolean {
+        return repository.getForGroupByExternalContactId(groupId, externalContactId) != null
     }
 
     fun insert(contact: Contact) = viewModelScope.launch {
