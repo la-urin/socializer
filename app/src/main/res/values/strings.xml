@@ -12,6 +12,7 @@
 
     <string name="pickContact">Pick Contact</string>
     <string name="contactAlreadyAdded">Contact has already been added</string>
+    <string name="unableToAddContact">Unable to add contact</string>
 
     <!-- -->
     <string name="saved_successfully">Saved!</string>
