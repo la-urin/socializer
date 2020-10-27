@@ -14,4 +14,10 @@
         android:text="@string/send_broadcast_message"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <Button
+        android:id="@+id/group_edit_fragment_button_random_call"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/message_broadcast_button"
+        android:text="@string/random_call" />
 </androidx.constraintlayout.widget.ConstraintLayout>

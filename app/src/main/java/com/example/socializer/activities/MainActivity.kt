@@ -1,7 +1,9 @@
 package com.example.socializer.activities
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -77,7 +79,12 @@ class MainActivity() : AppCompatActivity() {
             groups?.let { adapter.setGroups(it) }
         })
 
-        recyclerView.addItemDecoration(DividerItemDecoration(applicationContext,DividerItemDecoration.VERTICAL))
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                applicationContext,
+                DividerItemDecoration.VERTICAL
+            )
+        )
     }
 
     private fun setupAddGroupDialog() {
@@ -90,14 +97,21 @@ class MainActivity() : AppCompatActivity() {
 
             alertDialogBuilder.setView(promptsView)
             alertDialogBuilder
-                    .setCancelable(false)
-                    .setPositiveButton(R.string.ok) { _, _ ->
-                        insertGroup(userInput.text.toString())
-                    }
-                    .setNegativeButton(R.string.cancel) { _, _ ->
-                        Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT)
-                                .show()
-                    }
+                .setCancelable(false)
+                .setPositiveButton(R.string.ok) { _, _ ->
+                    val group = Group(userInput.text.toString())
+                    groupViewModel.insert(group)
+
+                    Toast.makeText(
+                        applicationContext,
+                        String.format("Group %s added", userInput.text),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                .setNegativeButton(R.string.cancel) { _, _ ->
+                    Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT)
+                        .show()
+                }
 
             var alertDialog: AlertDialog = alertDialogBuilder.create();
 
