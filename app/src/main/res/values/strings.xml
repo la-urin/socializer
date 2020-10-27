@@ -6,6 +6,7 @@
     <string name="groups">Groups</string>
     <string name="group">Group</string>
     <string name="groupNameRequired">Please provide a name for the group</string>
+    <string name="actions">Actions</string>
 
     <string name="create_new_group">Group name</string>
     <string name="create_or_edit_message">Message</string>
@@ -15,6 +16,8 @@
     <string name="pickContact">Pick Contact</string>
     <string name="contactAlreadyAdded">Contact has already been added</string>
     <string name="unableToAddContact">Unable to add contact</string>
+    <string name="unableToMakeRandomCall">Unable to make random call</string>
+    <string name="unableToBroadCastRandomMessage">Unable to broadcast random message</string>
 
     <!-- -->
     <string name="saved_successfully">Saved!</string>
@@ -30,7 +33,6 @@
     <string name="edit_modal">Edit</string>
     <string name="messageNotSent">Please add contacts and messages first!</string>
     <string name="messageSent">Message successfully sent!</string>
-    <string name="messageNotSentPermission">Make sure to accept the permissions!</string>
     <string name="showMessages">SHOW MESSAGES</string>
     <string name="deleted_successfully">Deleted successfully!</string>
     <string name="delete_group">Delete Group?</string>
