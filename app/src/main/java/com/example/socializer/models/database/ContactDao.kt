@@ -22,8 +22,8 @@ interface ContactDao {
     @Query("SELECT * FROM contact WHERE group_id = :groupId")
     fun getForGroup(groupId: Int): List<Contact>
 
-    @Query("SELECT * FROM contact WHERE contact_id = :contactId LIMIT 1")
-    fun getByExternalContactId(contactId: Long) : Contact?;
+    @Query("SELECT * FROM contact WHERE group_id = :groupId AND contact_id = :contactId LIMIT 1")
+    fun getForGroupByExternalContactId(groupId: Int, contactId: Long) : Contact?;
 
     @Insert
     fun insert(contact: Contact)

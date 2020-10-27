@@ -12,8 +12,8 @@ class ContactRepository(private val dao: ContactDao) {
         return dao.getForGroup(groupId)
     }
 
-    fun getByExternalContactId(contactId: Long) : Contact? {
-        return dao.getByExternalContactId(contactId)
+    fun getForGroupByExternalContactId(groupId: Int, contactId: Long) : Contact? {
+        return dao.getForGroupByExternalContactId(groupId, contactId)
     }
 
     fun insert(contact: Contact) {
