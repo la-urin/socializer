@@ -77,8 +77,6 @@ class MainActivity() : AppCompatActivity() {
         groupViewModel.groups.observe(this, Observer { groups ->
             groups?.let { adapter.setGroups(it) }
         })
-
-        recyclerView.addItemDecoration(DividerItemDecoration(applicationContext, DividerItemDecoration.VERTICAL))
     }
 
     private fun setupAddGroupDialog() {
