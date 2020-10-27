@@ -88,7 +88,7 @@ class GroupEditFragment : Fragment() {
                 try {
                     val smsManager = SmsManager.getDefault()
                     for (number in numbers) {
-                        //smsManager.sendTextMessage(number, null, randomMessage, null, null)
+                        smsManager.sendTextMessage(number, null, randomMessage, null, null)
                     }
 
                     val snackbar: Snackbar = Snackbar.make(fragment, R.string.messageSent, Snackbar.LENGTH_LONG);

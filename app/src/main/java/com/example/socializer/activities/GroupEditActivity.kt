@@ -46,8 +46,7 @@ class GroupEditActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        fragmentManager.beginTransaction().add(R.id.activity_group_edit_fragment, currentFragment)
-            .commit()
+        fragmentManager.beginTransaction().add(R.id.activity_group_edit_fragment, currentFragment).commit()
 
         val tabLayout = findViewById<TabLayout>(R.id.activity_group_edit_tabs)
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {

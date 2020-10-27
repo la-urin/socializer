@@ -24,7 +24,7 @@
 
     <string name="groups_fab_sort">Sort</string>
 
-    <string name="send_broadcast_message">Send Broadcast Message</string>
+    <string name="send_broadcast_message">Send Random Message</string>
     <string name="edit_modal">Edit</string>
     <string name="messageNotSent">Please add contacts and messages first!</string>
     <string name="messageSent">Message successfully sent!</string>
@@ -34,4 +34,5 @@
     <string name="delete_group">Delete Group?</string>
     <string name="yes">YES</string>
     <string name="delete_modal">Delete</string>
+    <string name="make_random_call">MAKE RANDOM CALL</string>
 </resources>
