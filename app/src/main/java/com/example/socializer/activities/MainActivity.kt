@@ -53,7 +53,8 @@ class MainActivity() : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                this.setTheme(R.style.DrunkMode)
+                baseContext.setTheme(R.style.DrunkMode)
+                recreate()
                 true
             }
             else -> super.onOptionsItemSelected(item)

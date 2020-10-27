@@ -35,4 +35,5 @@
     <string name="yes">YES</string>
     <string name="delete_modal">Delete</string>
     <string name="make_random_call">MAKE RANDOM CALL</string>
+    <string name="call_not_made">Calling failed!</string>
 </resources>

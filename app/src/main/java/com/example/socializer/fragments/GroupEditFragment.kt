@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.telephony.SmsManager
@@ -34,6 +35,7 @@ class GroupEditFragment : Fragment() {
     private lateinit var contactViewModel: ContactViewModel
     private lateinit var messageViewModel: MessageViewModel
     private lateinit var broadcastButton: Button
+    private lateinit var randomCallButton: Button
     private lateinit var fragment: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,11 +58,15 @@ class GroupEditFragment : Fragment() {
             sendBroadCastMessage()
         }
 
+        randomCallButton = fragment.findViewById(R.id.random_call_button)
+        randomCallButton.setOnClickListener {
+            makeRandomCall()
+        }
+
         return fragment
     }
 
     companion object {
-
         @JvmStatic
         fun newInstance(groupId: Int) = GroupEditFragment().apply {
             arguments = Bundle().apply { putInt(ARG_GROUP_ID, groupId) }
@@ -68,8 +74,8 @@ class GroupEditFragment : Fragment() {
     }
 
     private fun sendBroadCastMessage() {
-        if (!checkPermissions()) {
-            requestPermission(BROADCAST_PERMISSION_ID)
+        if (!checkPermissionsBroadcast()) {
+            requestPermissionBroadcast(BROADCAST_PERMISSION_ID)
         } else {
             val contacts = contactViewModel.getForGroup(groupId!!)
             var numbers = mutableSetOf<String>()
@@ -107,7 +113,30 @@ class GroupEditFragment : Fragment() {
         }
     }
 
-    @SuppressLint("Recycle")
+    private fun makeRandomCall() {
+        if (!checkPermissionsCall()) {
+            requestPermissionCall(RANDOM_CALL_PERMISSION_ID)
+        } else {
+            val contacts = contactViewModel.getForGroup(groupId!!)
+            var numbers = mutableSetOf<String>()
+
+            if (contacts.isNotEmpty()) {
+                for (contact in contacts) {
+                    getNumberFromContact(contact)?.let { numbers.add(it) }
+                }
+
+                var randomNumber = numbers.random()
+
+                val uri = "tel:" + randomNumber.trim()
+                val intent = Intent(Intent.ACTION_CALL)
+                intent.data = Uri.parse(uri)
+                startActivity(intent)
+            } else {
+                Snackbar.make(fragment, R.string.call_not_made, Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
+
     private fun getNumberFromContact(contact: Contact): String? {
         val selection = "${ContactsContract.CommonDataKinds.Phone.CONTACT_ID}=${contact.contactId}"
         val numCursor = requireActivity().contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, selection, null, null);
@@ -117,13 +146,23 @@ class GroupEditFragment : Fragment() {
         return null
     }
 
-    private fun requestPermission(requestCode: Int) {
+    private fun requestPermissionBroadcast(requestCode: Int) {
         val permissions = arrayOf(Manifest.permission.SEND_SMS, Manifest.permission.READ_CONTACTS)
         requestPermissions(permissions, requestCode)
     }
 
-    private fun checkPermissions(): Boolean {
+    private fun requestPermissionCall(requestCode: Int) {
+        val permissions = arrayOf(Manifest.permission.CALL_PHONE, Manifest.permission.READ_CONTACTS)
+        requestPermissions(permissions, requestCode)
+    }
+
+    private fun checkPermissionsBroadcast(): Boolean {
         return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun checkPermissionsCall(): Boolean {
+        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS) == PackageManager.PERMISSION_GRANTED
     }
 
@@ -132,7 +171,6 @@ class GroupEditFragment : Fragment() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-
         if (grantResults.all { result -> result == PackageManager.PERMISSION_GRANTED }) {
             when (requestCode) {
                 BROADCAST_PERMISSION_ID -> sendBroadCastMessage()
