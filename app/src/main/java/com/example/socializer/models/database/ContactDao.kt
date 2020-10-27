@@ -17,7 +17,10 @@ interface ContactDao {
     fun getById(id: Int): Contact
 
     @Query("SELECT * FROM contact WHERE group_id = :groupId")
-    fun getForGroup(groupId: Int): LiveData<List<Contact>>
+    fun getForGroupLive(groupId: Int): LiveData<List<Contact>>
+
+    @Query("SELECT * FROM contact WHERE group_id = :groupId")
+    fun getForGroup(groupId: Int): List<Contact>
 
     @Query("SELECT * FROM contact WHERE contact_id = :contactId LIMIT 1")
     fun getByExternalContactId(contactId: Long) : Contact?;

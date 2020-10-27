@@ -17,7 +17,11 @@ class ContactViewModel(application: Application) : AndroidViewModel(application)
         repository = ContactRepository(dao)
     }
 
-    fun getForGroup(groupId: Int): LiveData<List<Contact>> {
+    fun getForGroupLive(groupId: Int): LiveData<List<Contact>> {
+        return repository.getForGroupLive(groupId);
+    }
+
+    fun getForGroup(groupId: Int): List<Contact> {
         return repository.getForGroup(groupId);
     }
 

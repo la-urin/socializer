@@ -95,8 +95,7 @@ class MainActivity() : AppCompatActivity() {
                         insertGroup(userInput.text.toString())
                     }
                     .setNegativeButton(R.string.cancel) { _, _ ->
-                        Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT)
-                                .show()
+                        Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT).show()
                     }
 
             var alertDialog: AlertDialog = alertDialogBuilder.create();

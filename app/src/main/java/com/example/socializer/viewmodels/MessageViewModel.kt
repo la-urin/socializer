@@ -17,8 +17,12 @@ class MessageViewModel(application: Application) : AndroidViewModel(application)
         repository = MessageRepository(dao)
     }
 
-    fun getForGroup(groupId: Int): LiveData<List<Message>> {
+    fun getForGroup(groupId: Int): List<Message> {
         return repository.getForGroup(groupId)
+    }
+
+    fun getForGroupLive(groupId: Int): LiveData<List<Message>> {
+        return repository.getForGroupLive(groupId)
     }
 
     fun insert(message: Message) = viewModelScope.launch {

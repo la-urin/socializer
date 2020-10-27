@@ -52,7 +52,7 @@ class ContactsEditFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         viewModel = ViewModelProvider(this).get(ContactViewModel::class.java)
-        viewModel.getForGroup(groupId).observe(
+        viewModel.getForGroupLive(groupId).observe(
             viewLifecycleOwner,
             { contacts ->
                 contacts?.let {
