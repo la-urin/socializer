@@ -4,11 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socializer.R
 import com.example.socializer.models.Message
+import com.google.android.material.button.MaterialButton
 
 class MessageAdapter(
     context: Context,
@@ -26,10 +26,10 @@ class MessageAdapter(
     ) :
         RecyclerView.ViewHolder(itemView) {
         init {
-            val editButton = itemView.findViewById<ImageButton>(R.id.message_view_item_button_edit)
+            val editButton = itemView.findViewById<MaterialButton>(R.id.message_view_item_button_edit)
             editButton.setOnClickListener { onItemEditClicked(adapterPosition) }
             val deleteButton =
-                itemView.findViewById<ImageButton>(R.id.message_view_item_button_delete)
+                itemView.findViewById<MaterialButton>(R.id.message_view_item_button_delete)
             deleteButton.setOnClickListener { onItemDeleteClicked(adapterPosition) }
         }
 

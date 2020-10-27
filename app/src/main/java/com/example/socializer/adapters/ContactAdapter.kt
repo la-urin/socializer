@@ -4,11 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.socializer.R
 import com.example.socializer.models.Contact
+import com.google.android.material.button.MaterialButton
 
 class ContactAdapter(
     context: Context,
@@ -26,7 +26,7 @@ class ContactAdapter(
         RecyclerView.ViewHolder(itemView) {
         init {
             val deleteButton =
-                itemView.findViewById<ImageButton>(R.id.contact_view_item_button_delete)
+                itemView.findViewById<MaterialButton>(R.id.contact_view_item_button_delete)
             deleteButton.setOnClickListener { onItemDeleteClicked(adapterPosition) }
         }
 
