@@ -1,7 +1,6 @@
 package com.example.socializer.fragments
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -51,7 +50,7 @@ class GroupEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        fragment = inflater.inflate(R.layout.group_edit_fragment, container, false)
+        fragment = inflater.inflate(R.layout.group_actions_fragment, container, false)
 
         broadcastButton = fragment.findViewById(R.id.message_broadcast_button)
         broadcastButton.setOnClickListener {

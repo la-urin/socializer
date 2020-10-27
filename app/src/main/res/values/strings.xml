@@ -6,6 +6,7 @@
     <string name="groups">Groups</string>
     <string name="group">Group</string>
     <string name="groupNameRequired">Please provide a name for the group</string>
+    <string name="actions">Actions</string>
 
     <string name="create_new_group">Group name</string>
     <string name="create_or_edit_message">Message</string>
