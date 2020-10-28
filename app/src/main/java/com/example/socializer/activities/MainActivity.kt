@@ -5,6 +5,8 @@ import android.content.DialogInterface.OnShowListener
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
@@ -32,7 +34,6 @@ class MainActivity() : AppCompatActivity() {
 
         setupGroupRecyclerView()
         setupAddGroupDialog()
-        setupSortFunction()
     }
 
     override fun onResume() {
@@ -40,7 +41,21 @@ class MainActivity() : AppCompatActivity() {
 
         setupGroupRecyclerView()
         setupAddGroupDialog()
-        setupSortFunction()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.sort_button_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_sort_group -> {
+                groupViewModel.toggleSortMode()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun setupGroupRecyclerView() {
@@ -111,13 +126,6 @@ class MainActivity() : AppCompatActivity() {
         val group = Group(name)
         groupViewModel.insert(group)
         Toast.makeText(applicationContext, String.format("Group %s added", group.name), Toast.LENGTH_SHORT).show()
-    }
-
-    private fun setupSortFunction() {
-        val fab = findViewById<View>(R.id.groups_fab_sort) as FloatingActionButton
-        fab.setOnClickListener {
-            groupViewModel.toggleSortMode()
-        }
     }
 
 }

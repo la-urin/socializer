@@ -20,6 +20,7 @@
 
     <string name="send_broadcast_message">Send Random Message</string>
     <string name="edit_modal">Edit</string>
+    <string name="sort">Sort</string>
     <string name="messageNotSent">Add contacts and messages first!</string>
     <string name="messageSent">Message successfully sent!</string>
     <string name="showMessages">Show Messages</string>
