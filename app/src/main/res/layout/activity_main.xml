@@ -27,6 +27,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_baseline_add_24"
+        app:backgroundTint="@color/colorPrimaryDark"
         app:tint="@color/colorLabel" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -36,6 +37,6 @@
         android:layout_gravity="top|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_baseline_sort_by_alpha_24"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="@color/colorSecondary"
         app:tint="@color/colorLabel" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
