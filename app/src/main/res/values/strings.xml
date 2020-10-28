@@ -4,12 +4,12 @@
     <string name="messages">Messages</string>
     <string name="contacts">Contacts</string>
     <string name="groups">Groups</string>
-    <string name="groupNameRequired">Please provide a name for the group</string>
+    <string name="groupNameRequired">Provide a name for the group</string>
     <string name="actions">Actions</string>
 
     <string name="create_new_group">Group name</string>
     <string name="create_or_edit_message">Message</string>
-    <string name="messageTextRequired">Please provide a text for the message</string>
+    <string name="messageTextRequired">Provide a text for the message</string>
 
     <string name="contactAlreadyAdded">Contact has already been added</string>
     <string name="unableToAddContact">Unable to add contact</string>
@@ -20,7 +20,7 @@
 
     <string name="send_broadcast_message">Send Random Message</string>
     <string name="edit_modal">Edit</string>
-    <string name="messageNotSent">Please add contacts and messages first!</string>
+    <string name="messageNotSent">Add contacts and messages first!</string>
     <string name="messageSent">Message successfully sent!</string>
     <string name="showMessages">Show Messages</string>
     <string name="deleted_successfully">Deleted successfully!</string>
@@ -28,7 +28,7 @@
     <string name="yes">YES</string>
     <string name="delete_modal">Delete</string>
     <string name="make_random_call">Make Random Call</string>
-    <string name="noContactsAvailable">No contacts available</string>
+    <string name="noContactsAvailable">Add contacts first!</string>
     <string name="unableToMakeRandomCall">Unable to make random call</string>
     <string name="unableToBroadCastRandomMessage">Unable to broadcast random message</string>
 </resources>
