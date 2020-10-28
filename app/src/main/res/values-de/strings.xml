@@ -13,6 +13,8 @@
     <string name="saved_successfully">Gespeichert!</string>
     <string name="cancel">Abbrechen</string>
     <string name="ok">Ok</string>
+    <string name="nope">nope</string>
+    <string name="group_added">"Gruppe %s hinzugefügt"</string>
     <string name="send_broadcast_message">Zufällige Nachricht senden</string>
     <string name="edit_modal">Editieren</string>
     <string name="sort">Sortieren</string>

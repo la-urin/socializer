@@ -17,6 +17,8 @@
     <string name="saved_successfully">Saved!</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="nope">nope</string>
+    <string name="group_added">"Group %s added"</string>
 
     <string name="send_broadcast_message">Send Random Message</string>
     <string name="edit_modal">Edit</string>

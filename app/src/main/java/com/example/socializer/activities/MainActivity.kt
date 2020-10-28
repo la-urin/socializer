@@ -89,7 +89,7 @@ class MainActivity() : AppCompatActivity() {
                     .setCancelable(false)
                     .setPositiveButton(R.string.ok, null)
                     .setNegativeButton(R.string.cancel) { _, _ ->
-                        Toast.makeText(applicationContext, "Nope.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(applicationContext, R.string.nope, Toast.LENGTH_SHORT).show()
                     }
 
             var alertDialog: AlertDialog = alertDialogBuilder.create();
@@ -125,7 +125,7 @@ class MainActivity() : AppCompatActivity() {
     private fun insertGroup(name: String) {
         val group = Group(name)
         groupViewModel.insert(group)
-        Toast.makeText(applicationContext, String.format("Group %s added", group.name), Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, String.format(getString(R.string.group_added), group.name), Toast.LENGTH_SHORT).show()
     }
 
 }
